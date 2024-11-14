@@ -13,7 +13,24 @@ import SecurityIcon from '@mui/icons-material/Security';
 import { useInView } from 'react-intersection-observer';
 
 // 定义每个section的内容
-const sections = [
+type Section = {
+  id: string;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  image?: string;
+  features?: Array<{
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+  }>;
+  solutions?: Array<{
+    title: string;
+    description: string;
+    image: string;
+  }>;
+};
+
+const sections: Section[] = [
   {
     id: 'hero',
     title: (
@@ -86,9 +103,10 @@ export default function Home() {
   const [scrolling, setScrolling] = useState(false);
 
   // 使用 react-intersection-observer 监控每个section的可见性
-  const [refs, inViews] = sections.map(() => useInView({
-    threshold: 0.5,
-  }));
+  const [ref1, inView1] = useInView({ threshold: 0.5 });
+  const [ref2, inView2] = useInView({ threshold: 0.5 });
+  const [ref3, inView3] = useInView({ threshold: 0.5 });
+  const [ref4, inView4] = useInView({ threshold: 0.5 });
 
   // 处理滚轮事件
   useEffect(() => {
@@ -134,6 +152,7 @@ export default function Home() {
       
       {/* Hero Section */}
       <Box 
+        ref={ref1}
         id="hero"
         sx={{ 
           height: '100vh',
@@ -158,7 +177,7 @@ export default function Home() {
         <Container maxWidth="lg">
           <Grid container spacing={6} alignItems="center">
             <Grid item xs={12} md={6}>
-              <Fade in={inViews[0]} timeout={1000}>
+              <Fade in={inView1} timeout={1000}>
                 <Box>
                   <Typography 
                     variant="h1" 
@@ -242,7 +261,7 @@ export default function Home() {
               </Fade>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Fade in={inViews[0]} timeout={1000} style={{ transitionDelay: '500ms' }}>
+              <Fade in={inView1} timeout={1000} style={{ transitionDelay: '500ms' }}>
                 <Box 
                   sx={{
                     position: 'relative',
@@ -310,6 +329,7 @@ export default function Home() {
 
       {/* Features Section */}
       <Box
+        ref={ref2}
         id="features"
         sx={{ 
           height: '100vh',
@@ -319,7 +339,7 @@ export default function Home() {
         }}
       >
         <Container maxWidth="lg">
-          <Fade in={inViews[1]} timeout={1000}>
+          <Fade in={inView2} timeout={1000}>
             <Typography 
               variant="h2" 
               align="center" 
@@ -348,9 +368,9 @@ export default function Home() {
             </Typography>
           </Fade>
           <Grid container spacing={4}>
-            {sections[1].features.map((feature, index) => (
+            {sections[1]?.features?.map((feature, index) => (
               <Grid item xs={12} md={4} key={index}>
-                <Fade in={inViews[1]} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
+                <Fade in={inView2} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card 
                     elevation={0}
                     sx={{ 
@@ -401,6 +421,7 @@ export default function Home() {
 
       {/* Solutions Section */}
       <Box
+        ref={ref3}
         id="solutions"
         sx={{ 
           height: '100vh',
@@ -410,7 +431,7 @@ export default function Home() {
         }}
       >
         <Container maxWidth="lg">
-          <Fade in={inViews[2]} timeout={1000}>
+          <Fade in={inView3} timeout={1000}>
             <Typography 
               variant="h2" 
               align="center" 
@@ -427,9 +448,9 @@ export default function Home() {
             </Typography>
           </Fade>
           <Grid container spacing={4}>
-            {sections[2].solutions.map((solution, index) => (
+            {sections[2]?.solutions?.map((solution, index) => (
               <Grid item xs={12} md={4} key={index}>
-                <Fade in={inViews[2]} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
+                <Fade in={inView3} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
                     sx={{
                       height: '100%',
@@ -503,6 +524,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <Box
+        ref={ref4}
         id="cta"
         sx={{ 
           height: '100vh',
@@ -514,7 +536,7 @@ export default function Home() {
         }}
       >
         <Container maxWidth="md">
-          <Fade in={inViews[3]} timeout={1000}>
+          <Fade in={inView4} timeout={1000}>
             <Box>
               <Typography 
                 variant="h2" 
