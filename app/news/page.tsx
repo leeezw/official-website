@@ -9,6 +9,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useRouter } from 'next/navigation';
 
 const categories = ['全部', '公司新闻', '产品更新', '行业动态', '技术分享'];
 
@@ -52,6 +53,7 @@ const newsData = [
 export default function News() {
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const filteredNews = newsData.filter(news => 
     (selectedCategory === '全部' || news.category === selectedCategory) &&
@@ -233,6 +235,7 @@ export default function News() {
                         <Button 
                           variant="outlined" 
                           color="primary"
+                          onClick={() => router.push(`/news/${news.id}`)}
                           sx={{ 
                             borderWidth: 2,
                             '&:hover': {
@@ -318,6 +321,7 @@ export default function News() {
                       <Button 
                         variant="outlined" 
                         color="primary"
+                        onClick={() => router.push(`/news/${news.id}`)}
                         sx={{ 
                           borderWidth: 2,
                           '&:hover': {

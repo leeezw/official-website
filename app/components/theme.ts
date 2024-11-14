@@ -104,62 +104,79 @@ const theme = createTheme({
         },
         outlined: {
           borderWidth: '2px',
+          borderColor: '#1A237E',
+          color: '#1A237E',
           '&:hover': {
             borderWidth: '2px',
+            borderColor: '#3F51B5',
+            backgroundColor: 'rgba(26, 35, 126, 0.04)',
           },
         },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 2px 10px rgba(26, 35, 126, 0.1)',
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 4px 20px rgba(26, 35, 126, 0.1)',
-          transition: 'all 0.3s ease',
+        text: {
+          color: '#1A237E',
           '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 8px 30px rgba(26, 35, 126, 0.15)',
+            backgroundColor: 'rgba(26, 35, 126, 0.04)',
           },
-        },
-      },
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          fontFamily: 'PingFang SC',
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          fontFamily: 'PingFang SC',
           '& .MuiOutlinedInput-root': {
+            fontFamily: 'PingFang SC',
+            '& fieldset': {
+              borderColor: 'rgba(26, 35, 126, 0.2)',
+              transition: 'all 0.3s ease',
+            },
             '&:hover fieldset': {
               borderColor: '#1A237E',
             },
             '&.Mui-focused fieldset': {
               borderColor: '#1A237E',
+              borderWidth: '2px',
             },
+            '& input': {
+              color: '#1A237E',
+              '&::placeholder': {
+                color: 'rgba(26, 35, 126, 0.5)',
+                opacity: 1,
+              },
+            },
+            '& textarea': {
+              color: '#1A237E',
+              '&::placeholder': {
+                color: 'rgba(26, 35, 126, 0.5)',
+                opacity: 1,
+              },
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: 'rgba(26, 35, 126, 0.7)',
+            '&.Mui-focused': {
+              color: '#1A237E',
+            },
+          },
+          '& .MuiInputAdornment-root': {
+            color: 'rgba(26, 35, 126, 0.5)',
           },
         },
       },
     },
-    MuiInputLabel: {
+    MuiInputBase: {
       styleOverrides: {
-        root: {
-          fontFamily: 'PingFang SC',
-          '&.Mui-focused': {
-            color: '#1A237E',
+        input: {
+          '&::placeholder': {
+            color: 'rgba(26, 35, 126, 0.5)',
+            opacity: 1,
           },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        icon: {
+          color: 'rgba(26, 35, 126, 0.5)',
         },
       },
     },
@@ -175,6 +192,30 @@ const theme = createTheme({
             backgroundColor: 'rgba(26, 35, 126, 0.2)',
           },
         },
+        outlined: {
+          borderColor: 'rgba(26, 35, 126, 0.3)',
+          color: '#1A237E',
+          '&:hover': {
+            backgroundColor: 'rgba(26, 35, 126, 0.04)',
+          },
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: '#1A237E',
+          '&:hover': {
+            backgroundColor: 'rgba(26, 35, 126, 0.04)',
+          },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: 'rgba(26, 35, 126, 0.1)',
+        },
       },
     },
     MuiLink: {
@@ -187,10 +228,68 @@ const theme = createTheme({
         },
       },
     },
-    MuiDivider: {
+    MuiAccordion: {
       styleOverrides: {
         root: {
-          borderColor: 'rgba(26, 35, 126, 0.1)',
+          '&.Mui-expanded': {
+            margin: 0,
+          },
+        },
+      },
+    },
+    MuiAccordionSummary: {
+      styleOverrides: {
+        expandIconWrapper: {
+          color: '#1A237E',
+        },
+      },
+    },
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          color: 'rgba(26, 35, 126, 0.3)',
+          '&.Mui-active': {
+            color: '#1A237E',
+          },
+          '&.Mui-completed': {
+            color: '#3F51B5',
+          },
+        },
+        text: {
+          fill: '#FFFFFF',
+        },
+      },
+    },
+    MuiStepLabel: {
+      styleOverrides: {
+        label: {
+          color: 'rgba(26, 35, 126, 0.7)',
+          '&.Mui-active': {
+            color: '#1A237E',
+          },
+          '&.Mui-completed': {
+            color: '#3F51B5',
+          },
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        standardSuccess: {
+          backgroundColor: 'rgba(0, 184, 148, 0.1)',
+          color: '#00B894',
+        },
+        standardError: {
+          backgroundColor: 'rgba(255, 71, 87, 0.1)',
+          color: '#FF4757',
+        },
+        standardWarning: {
+          backgroundColor: 'rgba(255, 177, 66, 0.1)',
+          color: '#FFB142',
+        },
+        standardInfo: {
+          backgroundColor: 'rgba(26, 35, 126, 0.1)',
+          color: '#1A237E',
         },
       },
     },
