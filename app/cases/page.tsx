@@ -1,156 +1,384 @@
 'use client';
 import React from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Chip, Button } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Fade,
+  Stack,
+  Avatar,
+  Rating,
+  Divider,
+} from '@mui/material';
+import { useInView } from 'react-intersection-observer';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
+// 定义案例数据
 const cases = [
   {
     title: '某大型制造企业数字化转型',
-    description: '通过部署天庭ERP系统，实现了生产、库存、销售等环节的数字化管理，效率提升200%',
-    image: '/case1.jpg',
-    tags: ['制造业', '数字化转型', '流程优化'],
-    results: ['库存周转率提升40%', '人力成本降低30%', '客户满意度提升50%'],
+    industry: '制造业',
+    image: '/cases/manufacturing.jpg',
+    challenge: '传统生产管理模式效率低下，信息孤岛严重',
+    solution: '实施智能制造解决方案，打通全流程数据',
+    results: [
+      '生产效率提升40%',
+      '库存成本降低30%',
+      '订单交付准时率提升25%',
+      '质量控制效率提升35%',
+    ],
+    logo: '/cases/company1-logo.png',
   },
   {
-    title: '连锁零售企业全渠道整合',
-    description: '帮助客户打通线上线下销售渠道，实现统一库存管理和会员管理',
-    image: '/case2.jpg',
-    tags: ['零售', '全渠道', 'O2O'],
-    results: ['销售额提升35%', '库存准确率99.9%', '运营成本降低25%'],
+    title: '全国连锁零售企业管理升级',
+    industry: '零售业',
+    image: '/cases/retail.jpg',
+    challenge: '多店铺管理困难，库存管理效率低',
+    solution: '部署全渠道零售管理系统，实现统一管理',
+    results: [
+      '运营成本降低25%',
+      '库存周转率提升40%',
+      '会员复购率提升35%',
+      '人力成本降低20%',
+    ],
+    logo: '/cases/company2-logo.png',
   },
-  // 可以添加更多案例
+  {
+    title: '物流企业智慧化转型',
+    industry: '物流业',
+    image: '/cases/logistics.jpg',
+    challenge: '配送效率低，人工成本高',
+    solution: '引入智慧物流系统，优化配送路线',
+    results: [
+      '配送效率提升45%',
+      '燃油成本降低30%',
+      '客户满意度提升40%',
+      '人工成本降低35%',
+    ],
+    logo: '/cases/company3-logo.png',
+  },
+];
+
+// 定义客户评价数据
+const testimonials = [
+  {
+    name: '张总',
+    position: 'CEO',
+    company: '某制造集团',
+    avatar: '/testimonials/avatar1.jpg',
+    content: '天庭ERP帮助我们实现了生产管理的数字化转型，显著提升了生产效率和管理水平。系统的稳定性和易用性都很出色。',
+    rating: 5,
+  },
+  {
+    name: '李总',
+    position: '运营总监',
+    company: '某连锁零售',
+    avatar: '/testimonials/avatar2.jpg',
+    content: '选择天庭ERP是我们做过的最正确的决定之一。系统帮助我们实现了全渠道库存的统一管理，大大提升了运营效率。',
+    rating: 5,
+  },
+  {
+    name: '王总',
+    position: '技术总监',
+    company: '某物流公司',
+    avatar: '/testimonials/avatar3.jpg',
+    content: '天庭ERP的技术团队非常专业，实施过程顺畅，系统性能优异，完全满足我们的业务需求。',
+    rating: 5,
+  },
 ];
 
 export default function Cases() {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
     <Box>
       <Header />
-      <Box 
-        sx={{ 
-          pt: 15,
-          pb: 10,
-          background: 'linear-gradient(145deg, #f6f8fb 30%, #f0f4f8 90%)',
+      
+      {/* Hero Section */}
+      <Box
+        sx={{
+          pt: { xs: 12, md: 16 },
+          pb: { xs: 8, md: 12 },
+          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'url("/pattern.png")',
+            opacity: 0.1,
+            zIndex: 0,
+          }
         }}
       >
         <Container maxWidth="lg">
-          <Typography 
-            variant="h2" 
-            align="center"
-            gutterBottom
-            sx={{
-              fontWeight: 700,
-              mb: 6,
-              background: 'linear-gradient(45deg, #1A237E 30%, #00B894 90%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            客户案例
-          </Typography>
+          <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
+            <Typography
+              variant="h1"
+              align="center"
+              sx={{
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
+                fontWeight: 800,
+                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                mb: 2,
+              }}
+            >
+              客户成功案例
+            </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              sx={{
+                maxWidth: 800,
+                mx: 'auto',
+                lineHeight: 1.8,
+              }}
+            >
+              我们致力于为客户创造价值，助力企业实现数字化转型升级，
+              这些都是我们引以为傲的成功案例。
+            </Typography>
+          </Stack>
+        </Container>
+      </Box>
 
-          <Grid container spacing={4}>
+      {/* Cases Section */}
+      <Box sx={{ py: { xs: 8, md: 12 } }} ref={ref}>
+        <Container maxWidth="lg">
+          <Grid container spacing={6}>
             {cases.map((case_, index) => (
               <Grid item xs={12} key={index}>
-                <Card 
-                  sx={{ 
-                    display: 'flex', 
-                    flexDirection: { xs: 'column', md: 'row' },
-                    overflow: 'hidden',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{ 
-                      width: { xs: '100%', md: 400 },
-                      height: { xs: 240, md: 'auto' },
-                      objectFit: 'cover',
+                <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
+                  <Card
+                    sx={{
+                      display: 'flex',
+                      flexDirection: { xs: 'column', md: 'row' },
+                      overflow: 'hidden',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                      },
                     }}
-                    image={case_.image}
-                    alt={case_.title}
-                  />
-                  <CardContent sx={{ flex: 1, p: 4 }}>
-                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
-                      {case_.title}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary" paragraph>
-                      {case_.description}
-                    </Typography>
-                    <Box sx={{ mb: 3 }}>
-                      {case_.tags.map((tag, idx) => (
-                        <Chip
-                          key={idx}
-                          label={tag}
-                          sx={{ 
-                            mr: 1, 
-                            mb: 1,
-                            backgroundColor: 'rgba(0, 184, 148, 0.1)',
-                            color: 'secondary.main',
-                          }}
-                        />
-                      ))}
-                    </Box>
-                    <Typography variant="h6" gutterBottom>
-                      实施成效：
-                    </Typography>
-                    <Box component="ul" sx={{ pl: 2 }}>
-                      {case_.results.map((result, idx) => (
-                        <Typography 
-                          key={idx} 
-                          component="li" 
-                          color="text.secondary"
-                          sx={{ mb: 1 }}
-                        >
-                          {result}
-                        </Typography>
-                      ))}
-                    </Box>
-                    <Button 
-                      variant="outlined" 
-                      color="secondary"
-                      sx={{ mt: 2 }}
+                  >
+                    <Box
+                      sx={{
+                        width: { xs: '100%', md: '40%' },
+                        position: 'relative',
+                      }}
                     >
-                      查看详情
-                    </Button>
-                  </CardContent>
-                </Card>
+                      <Box
+                        component="img"
+                        src={case_.image}
+                        alt={case_.title}
+                        sx={{
+                          width: '100%',
+                          height: { xs: 240, md: '100%' },
+                          objectFit: 'cover',
+                        }}
+                      />
+                      <Box
+                        component="img"
+                        src={case_.logo}
+                        alt="Company Logo"
+                        sx={{
+                          position: 'absolute',
+                          bottom: 20,
+                          right: 20,
+                          width: 60,
+                          height: 60,
+                          borderRadius: '50%',
+                          bgcolor: 'white',
+                          p: 1,
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                        }}
+                      />
+                    </Box>
+                    <CardContent sx={{ flex: 1, p: 4 }}>
+                      <Stack spacing={3}>
+                        <Box>
+                          <Typography
+                            variant="overline"
+                            sx={{ color: 'primary.main', fontWeight: 600 }}
+                          >
+                            {case_.industry}
+                          </Typography>
+                          <Typography variant="h4" component="h2" fontWeight={600} gutterBottom>
+                            {case_.title}
+                          </Typography>
+                        </Box>
+                        
+                        <Box>
+                          <Typography variant="h6" color="primary.main" gutterBottom>
+                            项目背景
+                          </Typography>
+                          <Typography color="text.secondary" paragraph>
+                            {case_.challenge}
+                          </Typography>
+                        </Box>
+
+                        <Box>
+                          <Typography variant="h6" color="primary.main" gutterBottom>
+                            解决方案
+                          </Typography>
+                          <Typography color="text.secondary" paragraph>
+                            {case_.solution}
+                          </Typography>
+                        </Box>
+
+                        <Box>
+                          <Typography variant="h6" color="primary.main" gutterBottom>
+                            实施效果
+                          </Typography>
+                          <Grid container spacing={2}>
+                            {case_.results.map((result, idx) => (
+                              <Grid item xs={12} sm={6} key={idx}>
+                                <Box
+                                  sx={{
+                                    p: 2,
+                                    borderRadius: 2,
+                                    bgcolor: 'rgba(26, 35, 126, 0.05)',
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <Typography variant="body2">
+                                    {result}
+                                  </Typography>
+                                </Box>
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Fade>
               </Grid>
             ))}
           </Grid>
-
-          {/* 合作咨询 */}
-          <Box 
-            sx={{ 
-              mt: 8, 
-              p: 6, 
-              textAlign: 'center',
-              backgroundColor: 'white',
-              borderRadius: 4,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            }}
-          >
-            <Typography variant="h4" gutterBottom>
-              寻找适合您企业的解决方案
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-              我们的专业团队将为您提供个性化的解决方案建议
-            </Typography>
-            <Button 
-              variant="contained" 
-              color="secondary"
-              size="large"
-              onClick={() => window.location.href = '/contact'}
-            >
-              免费咨询
-            </Button>
-          </Box>
         </Container>
       </Box>
+
+      {/* Testimonials Section */}
+      <Box
+        sx={{
+          py: { xs: 8, md: 12 },
+          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography
+            variant="h2"
+            align="center"
+            sx={{
+              fontWeight: 700,
+              mb: 8,
+              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              position: 'relative',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -10,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 60,
+                height: 4,
+                background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                borderRadius: 2,
+              }
+            }}
+          >
+            客户评价
+          </Typography>
+          
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      position: 'relative',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 20,
+                        left: 20,
+                        width: 40,
+                        height: 40,
+                        background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                        borderRadius: '50%',
+                        opacity: 0.1,
+                      }
+                    }}
+                  >
+                    <CardContent sx={{ p: 4 }}>
+                      <Stack spacing={3}>
+                        <FormatQuoteIcon 
+                          sx={{ 
+                            fontSize: 40,
+                            color: 'primary.main',
+                            opacity: 0.5,
+                          }} 
+                        />
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            fontStyle: 'italic',
+                            color: 'text.secondary',
+                            lineHeight: 1.8,
+                          }}
+                        >
+                          {testimonial.content}
+                        </Typography>
+                        <Rating value={testimonial.rating} readOnly />
+                        <Divider />
+                        <Stack direction="row" spacing={2} alignItems="center">
+                          <Avatar
+                            src={testimonial.avatar}
+                            alt={testimonial.name}
+                            sx={{ width: 56, height: 56 }}
+                          />
+                          <Box>
+                            <Typography variant="h6" fontWeight={600}>
+                              {testimonial.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {testimonial.position}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {testimonial.company}
+                            </Typography>
+                          </Box>
+                        </Stack>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Fade>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
       <Footer />
     </Box>
   );
