@@ -50,7 +50,7 @@ export default function Header() {
               component="div"
               sx={{ 
                 fontWeight: 700,
-                background: 'linear-gradient(45deg, #00B894 30%, #00CEC9 90%)',
+                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
