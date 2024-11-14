@@ -170,7 +170,7 @@ export default function Home() {
         id="hero"
         sx={{ 
           height: '100vh',
-          pt: 10,
+          pt: { xs: 12, md: 0 },
           background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
           position: 'relative',
           overflow: 'hidden',
@@ -185,35 +185,63 @@ export default function Home() {
             left: 0,
             background: 'url("/pattern.png")',
             opacity: 0.1,
+            animation: 'float 20s linear infinite',
+          },
+          '@keyframes float': {
+            '0%': {
+              transform: 'translateY(0) rotate(0deg)',
+            },
+            '100%': {
+              transform: 'translateY(-50%) rotate(10deg)',
+            },
           }
         }}
       >
         <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
+          <Grid container spacing={8} alignItems="center" sx={{ position: 'relative' }}>
             <Grid item xs={12} md={6}>
               <Fade in={inView1} timeout={1000}>
-                <Box>
+                <Box sx={{ position: 'relative' }}>
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: -30,
+                      left: -30,
+                      width: 200,
+                      height: 200,
+                      background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
+                      borderRadius: '50%',
+                      animation: 'pulse 3s ease-in-out infinite',
+                      '@keyframes pulse': {
+                        '0%': { transform: 'scale(1)' },
+                        '50%': { transform: 'scale(1.2)' },
+                        '100%': { transform: 'scale(1)' },
+                      },
+                    }}
+                  />
                   <Typography 
                     variant="h1" 
                     component="h1" 
                     gutterBottom
                     sx={{ 
-                      fontSize: { xs: '2.5rem', md: '3.5rem' },
+                      fontSize: { xs: '2.75rem', sm: '3.5rem', md: '4rem' },
                       lineHeight: 1.2,
                       background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       position: 'relative',
                       mb: 4,
+                      fontWeight: 800,
+                      letterSpacing: '-0.02em',
                       '&::after': {
                         content: '""',
                         position: 'absolute',
                         bottom: -10,
                         left: 0,
-                        width: 80,
-                        height: 4,
+                        width: 100,
+                        height: 6,
                         background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
-                        borderRadius: 2,
+                        borderRadius: 3,
                       }
                     }}
                   >
@@ -222,26 +250,33 @@ export default function Home() {
                   <Typography 
                     variant="h5" 
                     sx={{ 
-                      mb: 6,
+                      mb: 8,
                       color: 'text.secondary',
                       fontWeight: 400,
                       lineHeight: 1.8,
+                      fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                      maxWidth: '90%',
                     }}
                   >
                     {sections[0].subtitle}
                   </Typography>
-                  <Box sx={{ display: 'flex', gap: 3 }}>
+                  <Stack 
+                    direction={{ xs: 'column', sm: 'row' }} 
+                    spacing={{ xs: 2, sm: 3 }}
+                    sx={{ position: 'relative' }}
+                  >
                     <Button 
                       variant="contained" 
                       color="primary" 
                       size="large"
                       sx={{ 
-                        px: 6,
+                        px: { xs: 4, sm: 6 },
                         py: 2,
-                        fontSize: '1.1rem',
-                        fontWeight: 500,
+                        fontSize: { xs: '1rem', sm: '1.1rem' },
+                        fontWeight: 600,
                         background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                         boxShadow: '0 4px 20px rgba(26, 35, 126, 0.25)',
+                        borderRadius: 3,
                         '&:hover': {
                           background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
                           transform: 'translateY(-2px)',
@@ -256,11 +291,12 @@ export default function Home() {
                       color="primary" 
                       size="large"
                       sx={{ 
-                        px: 6,
+                        px: { xs: 4, sm: 6 },
                         py: 2,
-                        fontSize: '1.1rem',
-                        fontWeight: 500,
+                        fontSize: { xs: '1rem', sm: '1.1rem' },
+                        fontWeight: 600,
                         borderWidth: 2,
+                        borderRadius: 3,
                         '&:hover': {
                           borderWidth: 2,
                           transform: 'translateY(-2px)',
@@ -270,7 +306,7 @@ export default function Home() {
                     >
                       了解更多
                     </Button>
-                  </Box>
+                  </Stack>
                 </Box>
               </Fade>
             </Grid>
@@ -279,6 +315,8 @@ export default function Home() {
                 <Box 
                   sx={{
                     position: 'relative',
+                    width: '120%',
+                    ml: { md: -8 },
                     '&::before': {
                       content: '""',
                       position: 'absolute',
@@ -289,7 +327,18 @@ export default function Home() {
                       background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.2), rgba(63, 81, 181, 0.2))',
                       borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
                       filter: 'blur(40px)',
-                      zIndex: 0,
+                      animation: 'morphing 15s ease-in-out infinite',
+                      '@keyframes morphing': {
+                        '0%': {
+                          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                        },
+                        '50%': {
+                          borderRadius: '70% 30% 30% 70% / 70% 70% 30% 30%',
+                        },
+                        '100%': {
+                          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                        }
+                      }
                     }
                   }}
                 >
@@ -300,13 +349,16 @@ export default function Home() {
                     sx={{
                       width: '100%',
                       height: 'auto',
+                      maxHeight: '80vh',
+                      objectFit: 'contain',
                       borderRadius: 4,
                       position: 'relative',
                       zIndex: 1,
                       boxShadow: '0 20px 40px rgba(26, 35, 126, 0.2)',
                       transition: 'all 0.3s ease',
+                      transform: 'perspective(1000px) rotateY(-5deg) translateX(-20px)',
                       '&:hover': {
-                        transform: 'translateY(-8px)',
+                        transform: 'perspective(1000px) rotateY(0deg) translateY(-8px) translateX(-20px)',
                         boxShadow: '0 25px 50px rgba(26, 35, 126, 0.25)',
                       },
                     }}
