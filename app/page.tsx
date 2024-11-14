@@ -187,187 +187,231 @@ export default function Home() {
             opacity: 0.1,
             animation: 'float 20s linear infinite',
           },
-          '@keyframes float': {
-            '0%': {
-              transform: 'translateY(0) rotate(0deg)',
-            },
-            '100%': {
-              transform: 'translateY(-50%) rotate(10deg)',
-            },
+          '&::after': {
+            content: '"TIANTIN"', // 背景文字
+            position: 'absolute',
+            top: '5%',
+            right: '5%',
+            fontSize: { xs: '100px', md: '200px' },
+            fontWeight: 900,
+            color: 'rgba(255, 255, 255, 0.03)',
+            zIndex: 0,
+            letterSpacing: '0.1em',
+            userSelect: 'none',
           }
         }}
       >
-        <Container maxWidth="lg">
-          <Grid container spacing={8} alignItems="center" sx={{ position: 'relative' }}>
-            <Grid item xs={12} md={6}>
-              <Fade in={inView1} timeout={1000}>
-                <Box sx={{ position: 'relative' }}>
-                  <Box
+        {/* 添加毛玻璃效果覆盖层 */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)', // Safari 支持
+            zIndex: 1,
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: '20%',
+              left: '10%',
+              width: '40%',
+              height: '40%',
+              background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
+              animation: 'float 15s ease-in-out infinite alternate',
+            },
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: '20%',
+              right: '10%',
+              width: '35%',
+              height: '35%',
+              background: 'radial-gradient(circle, rgba(26, 35, 126, 0.08) 0%, rgba(26, 35, 126, 0) 70%)',
+              animation: 'float 12s ease-in-out infinite alternate-reverse',
+            }
+          }}
+        />
+
+        {/* 将原有内容包裹在新的 Box 中以确保在毛玻璃效果之上 */}
+        <Box sx={{ position: 'relative', zIndex: 2, width: '100%' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={8} alignItems="center" sx={{ position: 'relative' }}>
+              <Grid item xs={12} md={6}>
+                <Fade in={inView1} timeout={1000}>
+                  <Box sx={{ position: 'relative' }}>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: -30,
+                        left: -30,
+                        width: 200,
+                        height: 200,
+                        background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
+                        borderRadius: '50%',
+                        animation: 'pulse 3s ease-in-out infinite',
+                        '@keyframes pulse': {
+                          '0%': { transform: 'scale(1)' },
+                          '50%': { transform: 'scale(1.2)' },
+                          '100%': { transform: 'scale(1)' },
+                        },
+                      }}
+                    />
+                    <Typography 
+                      variant="h1" 
+                      component="h1" 
+                      gutterBottom
+                      sx={{ 
+                        fontSize: { xs: '2.75rem', sm: '3.5rem', md: '4rem' },
+                        lineHeight: 1.2,
+                        background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        position: 'relative',
+                        mb: 4,
+                        fontWeight: 800,
+                        letterSpacing: '-0.02em',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: -10,
+                          left: 0,
+                          width: 100,
+                          height: 6,
+                          background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                          borderRadius: 3,
+                        }
+                      }}
+                    >
+                      {sections[0].title}
+                    </Typography>
+                    <Typography 
+                      variant="h5" 
+                      sx={{ 
+                        mb: 8,
+                        color: 'text.secondary',
+                        fontWeight: 400,
+                        lineHeight: 1.8,
+                        fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                        maxWidth: '90%',
+                      }}
+                    >
+                      {sections[0].subtitle}
+                    </Typography>
+                    <Stack 
+                      direction={{ xs: 'column', sm: 'row' }} 
+                      spacing={{ xs: 2, sm: 3 }}
+                      sx={{ position: 'relative' }}
+                    >
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        size="large"
+                        sx={{ 
+                          px: { xs: 4, sm: 6 },
+                          py: 2,
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          fontWeight: 600,
+                          background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                          boxShadow: '0 4px 20px rgba(26, 35, 126, 0.25)',
+                          borderRadius: 3,
+                          '&:hover': {
+                            background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 6px 25px rgba(26, 35, 126, 0.35)',
+                          },
+                        }}
+                      >
+                        免费试用
+                      </Button>
+                      <Button 
+                        variant="outlined" 
+                        color="primary" 
+                        size="large"
+                        sx={{ 
+                          px: { xs: 4, sm: 6 },
+                          py: 2,
+                          fontSize: { xs: '1rem', sm: '1.1rem' },
+                          fontWeight: 600,
+                          borderWidth: 2,
+                          borderRadius: 3,
+                          '&:hover': {
+                            borderWidth: 2,
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 15px rgba(26, 35, 126, 0.15)',
+                          },
+                        }}
+                      >
+                        了解更多
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Fade>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Fade in={inView1} timeout={1000} style={{ transitionDelay: '500ms' }}>
+                  <Box 
                     sx={{
-                      position: 'absolute',
-                      top: -30,
-                      left: -30,
-                      width: 200,
-                      height: 200,
-                      background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
-                      borderRadius: '50%',
-                      animation: 'pulse 3s ease-in-out infinite',
-                      '@keyframes pulse': {
-                        '0%': { transform: 'scale(1)' },
-                        '50%': { transform: 'scale(1.2)' },
-                        '100%': { transform: 'scale(1)' },
-                      },
-                    }}
-                  />
-                  <Typography 
-                    variant="h1" 
-                    component="h1" 
-                    gutterBottom
-                    sx={{ 
-                      fontSize: { xs: '2.75rem', sm: '3.5rem', md: '4rem' },
-                      lineHeight: 1.2,
-                      background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
                       position: 'relative',
-                      mb: 4,
-                      fontWeight: 800,
-                      letterSpacing: '-0.02em',
-                      '&::after': {
+                      width: '120%',
+                      ml: { md: -8 },
+                      '&::before': {
                         content: '""',
                         position: 'absolute',
-                        bottom: -10,
-                        left: 0,
-                        width: 100,
-                        height: 6,
-                        background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
-                        borderRadius: 3,
-                      }
-                    }}
-                  >
-                    {sections[0].title}
-                  </Typography>
-                  <Typography 
-                    variant="h5" 
-                    sx={{ 
-                      mb: 8,
-                      color: 'text.secondary',
-                      fontWeight: 400,
-                      lineHeight: 1.8,
-                      fontSize: { xs: '1.1rem', sm: '1.25rem' },
-                      maxWidth: '90%',
-                    }}
-                  >
-                    {sections[0].subtitle}
-                  </Typography>
-                  <Stack 
-                    direction={{ xs: 'column', sm: 'row' }} 
-                    spacing={{ xs: 2, sm: 3 }}
-                    sx={{ position: 'relative' }}
-                  >
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      size="large"
-                      sx={{ 
-                        px: { xs: 4, sm: 6 },
-                        py: 2,
-                        fontSize: { xs: '1rem', sm: '1.1rem' },
-                        fontWeight: 600,
-                        background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                        boxShadow: '0 4px 20px rgba(26, 35, 126, 0.25)',
-                        borderRadius: 3,
-                        '&:hover': {
-                          background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 6px 25px rgba(26, 35, 126, 0.35)',
-                        },
-                      }}
-                    >
-                      免费试用
-                    </Button>
-                    <Button 
-                      variant="outlined" 
-                      color="primary" 
-                      size="large"
-                      sx={{ 
-                        px: { xs: 4, sm: 6 },
-                        py: 2,
-                        fontSize: { xs: '1rem', sm: '1.1rem' },
-                        fontWeight: 600,
-                        borderWidth: 2,
-                        borderRadius: 3,
-                        '&:hover': {
-                          borderWidth: 2,
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 4px 15px rgba(26, 35, 126, 0.15)',
-                        },
-                      }}
-                    >
-                      了解更多
-                    </Button>
-                  </Stack>
-                </Box>
-              </Fade>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Fade in={inView1} timeout={1000} style={{ transitionDelay: '500ms' }}>
-                <Box 
-                  sx={{
-                    position: 'relative',
-                    width: '120%',
-                    ml: { md: -8 },
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: '10%',
-                      left: '10%',
-                      width: '80%',
-                      height: '80%',
-                      background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.2), rgba(63, 81, 181, 0.2))',
-                      borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
-                      filter: 'blur(40px)',
-                      animation: 'morphing 15s ease-in-out infinite',
-                      '@keyframes morphing': {
-                        '0%': {
-                          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
-                        },
-                        '50%': {
-                          borderRadius: '70% 30% 30% 70% / 70% 70% 30% 30%',
-                        },
-                        '100%': {
-                          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                        top: '10%',
+                        left: '10%',
+                        width: '80%',
+                        height: '80%',
+                        background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.2), rgba(63, 81, 181, 0.2))',
+                        borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                        filter: 'blur(40px)',
+                        animation: 'morphing 15s ease-in-out infinite',
+                        '@keyframes morphing': {
+                          '0%': {
+                            borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                          },
+                          '50%': {
+                            borderRadius: '70% 30% 30% 70% / 70% 70% 30% 30%',
+                          },
+                          '100%': {
+                            borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+                          }
                         }
                       }
-                    }
-                  }}
-                >
-                  <Box 
-                    component="img"
-                    src={sections[0].image}
-                    alt="天庭ERP界面预览"
-                    sx={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '80vh',
-                      objectFit: 'contain',
-                      borderRadius: 4,
-                      position: 'relative',
-                      zIndex: 1,
-                      boxShadow: '0 20px 40px rgba(26, 35, 126, 0.2)',
-                      transition: 'all 0.3s ease',
-                      transform: 'perspective(1000px) rotateY(-5deg) translateX(-20px)',
-                      '&:hover': {
-                        transform: 'perspective(1000px) rotateY(0deg) translateY(-8px) translateX(-20px)',
-                        boxShadow: '0 25px 50px rgba(26, 35, 126, 0.25)',
-                      },
                     }}
-                  />
-                </Box>
-              </Fade>
+                  >
+                    <Box 
+                      component="img"
+                      src={sections[0].image}
+                      alt="天庭ERP界面预览"
+                      sx={{
+                        width: '100%',
+                        height: 'auto',
+                        maxHeight: '80vh',
+                        objectFit: 'contain',
+                        borderRadius: 4,
+                        position: 'relative',
+                        zIndex: 1,
+                        boxShadow: '0 20px 40px rgba(26, 35, 126, 0.2)',
+                        transition: 'all 0.3s ease',
+                        transform: 'perspective(1000px) rotateY(-5deg) translateX(-20px)',
+                        '&:hover': {
+                          transform: 'perspective(1000px) rotateY(0deg) translateY(-8px) translateX(-20px)',
+                          boxShadow: '0 25px 50px rgba(26, 35, 126, 0.25)',
+                        },
+                      }}
+                    />
+                  </Box>
+                </Fade>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </Box>
+
+        {/* 确保箭头按钮在最上层 */}
         <IconButton
           sx={{
             position: 'absolute',
@@ -375,6 +419,7 @@ export default function Home() {
             left: '50%',
             transform: 'translateX(-50%)',
             animation: 'bounce 2s infinite',
+            zIndex: 3, // 增加 z-index
             '@keyframes bounce': {
               '0%, 20%, 50%, 80%, 100%': {
                 transform: 'translateX(-50%) translateY(0)',
@@ -533,6 +578,18 @@ export default function Home() {
                 background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -10,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 60,
+                  height: 4,
+                  background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                  borderRadius: 2,
+                }
               }}
             >
               {sections[2].title}
@@ -674,18 +731,23 @@ export default function Home() {
                 {sections[3].subtitle}
               </Typography>
               <Button
-                variant="contained"
+                variant="outlined"  // 改为 outlined 变体
                 size="large"
                 sx={{
-                  px: 6,
+                  px: { xs: 4, sm: 6 },
                   py: 2,
-                  fontSize: '1.2rem',
-                  bgcolor: 'white',
-                  color: 'primary.main',
+                  fontSize: { xs: '1rem', sm: '1.1rem' },
+                  fontWeight: 600,
+                  borderWidth: 2,
+                  borderRadius: 3,
+                  color: 'white',  // 文字颜色改为白色
+                  borderColor: 'white',  // 边框颜色改为白色
                   '&:hover': {
-                    bgcolor: 'white',
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
+                    borderWidth: 2,
+                    borderColor: 'white',  // 悬停时保持边框颜色
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(255, 255, 255, 0.15)',
+                    bgcolor: 'transparent',  // 保持背景透明
                   },
                 }}
               >
