@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import {
   AppBar,
   Box,
@@ -44,9 +45,16 @@ function HideOnScroll(props: Props) {
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleMenuToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const isActive = (href: string) => {
+    if (href === '/' && pathname === '/') return true;
+    if (href !== '/' && pathname.startsWith(href)) return true;
+    return false;
   };
 
   return (
@@ -125,7 +133,7 @@ export default function Header() {
                       '&::after': {
                         content: '""',
                         position: 'absolute',
-                        width: '0%',
+                        width: isActive(page.href) ? '80%' : '0%',
                         height: 2,
                         bottom: 0,
                         left: '50%',
@@ -206,6 +214,7 @@ export default function Header() {
                         justifyContent: 'flex-start',
                         pl: 2,
                         borderRadius: 1,
+                        backgroundColor: isActive(page.href) ? 'rgba(26, 35, 126, 0.08)' : 'transparent',
                         '&:hover': {
                           backgroundColor: 'rgba(26, 35, 126, 0.08)',
                         },
