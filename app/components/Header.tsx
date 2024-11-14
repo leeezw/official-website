@@ -13,9 +13,11 @@ import {
   Stack,
   useScrollTrigger,
   Slide,
+  alpha,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import ThemeToggle from './ThemeToggle';
 
 const pages = [
   { title: '首页', href: '/' },
@@ -63,12 +65,16 @@ export default function Header() {
         <AppBar 
           position="fixed" 
           elevation={0}
-          sx={{
-            background: 'rgba(255, 255, 255, 0.8)',
+          sx={(theme) => ({
+            background: theme.palette.mode === 'dark' 
+              ? 'rgba(10, 25, 41, 0.8)' 
+              : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(20px)',
             borderBottom: '1px solid',
-            borderColor: 'rgba(26, 35, 126, 0.1)',
-          }}
+            borderColor: theme.palette.mode === 'dark'
+              ? 'rgba(255, 255, 255, 0.1)'
+              : 'rgba(26, 35, 126, 0.1)',
+          })}
         >
           <Container maxWidth="lg">
             <Toolbar 
@@ -100,14 +106,14 @@ export default function Header() {
                   noWrap
                   component="a"
                   href="/"
-                  sx={{
+                  sx={(theme) => ({
                     fontWeight: 700,
-                    background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                    background: theme.palette.gradients.primary,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     textDecoration: 'none',
                     fontSize: { xs: '1.25rem', md: '1.5rem' },
-                  }}
+                  })}
                 >
                   天庭ERP
                 </Typography>
@@ -124,9 +130,9 @@ export default function Header() {
                   <Button
                     key={page.title}
                     href={page.href}
-                    sx={{
+                    sx={(theme) => ({
                       mx: 1.5,
-                      color: 'text.primary',
+                      color: theme.palette.text.primary,
                       fontSize: '0.95rem',
                       fontWeight: 500,
                       position: 'relative',
@@ -138,7 +144,7 @@ export default function Header() {
                         bottom: 0,
                         left: '50%',
                         transform: 'translateX(-50%)',
-                        backgroundColor: 'primary.main',
+                        backgroundColor: theme.palette.primary.main,
                         transition: 'width 0.3s ease',
                       },
                       '&:hover': {
@@ -147,7 +153,7 @@ export default function Header() {
                           width: '80%',
                         },
                       },
-                    }}
+                    })}
                   >
                     {page.title}
                   </Button>
@@ -155,28 +161,30 @@ export default function Header() {
               </Box>
 
               {/* 桌面端操作按钮 */}
-              <Button
-                variant="contained"
-                color="primary"
-                href="auth/login"
-                sx={{
-                  display: { xs: 'none', md: 'flex' },
-                  px: 3,
-                  py: 1,
-                  background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                  boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
-                  borderRadius: 2,
-                  fontSize: '0.95rem',
-                  fontWeight: 600,
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
-                    boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
-                    transform: 'translateY(-1px)',
-                  },
-                }}
-              >
-                登录
-              </Button>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <ThemeToggle />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  href="/auth/login"
+                  sx={(theme) => ({
+                    px: 3,
+                    py: 1,
+                    background: theme.palette.gradients.primary,
+                    boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
+                    borderRadius: 2,
+                    fontSize: '0.95rem',
+                    fontWeight: 600,
+                    '&:hover': {
+                      background: `linear-gradient(45deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.main} 90%)`,
+                      boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
+                      transform: 'translateY(-1px)',
+                    },
+                  })}
+                >
+                  登录
+                </Button>
+              </Box>
 
               {/* 移动端菜单按钮 */}
               <IconButton
@@ -195,12 +203,14 @@ export default function Header() {
             {/* 移动端下拉菜单 */}
             <Collapse in={mobileOpen}>
               <Box 
-                sx={{ 
+                sx={(theme) => ({ 
                   py: 2,
                   px: 2,
                   display: { md: 'none' },
-                  background: 'rgba(255, 255, 255, 0.95)',
-                }}
+                  background: theme.palette.mode === 'dark'
+                    ? 'rgba(10, 25, 41, 0.95)'
+                    : 'rgba(255, 255, 255, 0.95)',
+                })}
               >
                 <Stack spacing={1}>
                   {pages.map((page) => (
@@ -208,17 +218,19 @@ export default function Header() {
                       key={page.title}
                       href={page.href}
                       fullWidth
-                      sx={{
+                      sx={(theme) => ({
                         py: 1.5,
-                        color: 'text.primary',
+                        color: theme.palette.text.primary,
                         justifyContent: 'flex-start',
                         pl: 2,
                         borderRadius: 1,
-                        backgroundColor: isActive(page.href) ? 'rgba(26, 35, 126, 0.08)' : 'transparent',
+                        backgroundColor: isActive(page.href) 
+                          ? alpha(theme.palette.primary.main, 0.08)
+                          : 'transparent',
                         '&:hover': {
-                          backgroundColor: 'rgba(26, 35, 126, 0.08)',
+                          backgroundColor: alpha(theme.palette.primary.main, 0.08),
                         },
-                      }}
+                      })}
                     >
                       {page.title}
                     </Button>
@@ -227,17 +239,17 @@ export default function Header() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    href="/login"
-                    sx={{
+                    href="/auth/login"
+                    sx={(theme) => ({
                       mt: 2,
                       py: 1.5,
-                      background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                      background: theme.palette.gradients.primary,
                       boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
                       '&:hover': {
-                        background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                        background: `linear-gradient(45deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.main} 90%)`,
                         boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
                       },
-                    }}
+                    })}
                   >
                     登录
                   </Button>

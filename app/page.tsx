@@ -11,6 +11,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SecurityIcon from '@mui/icons-material/Security';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material/styles';
 
 // 定义每个section的内容
 type Section = {
@@ -168,10 +169,10 @@ export default function Home() {
       <Box 
         ref={ref1}
         id="hero"
-        sx={{ 
+        sx={(theme) => ({ 
           height: '100vh',
           pt: { xs: 12, md: 0 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           display: 'flex',
@@ -188,30 +189,34 @@ export default function Home() {
             animation: 'float 20s linear infinite',
           },
           '&::after': {
-            content: '"TIANTIN"', // 背景文字
+            content: '"TIANTIN"',
             position: 'absolute',
             top: '5%',
             right: '5%',
             fontSize: { xs: '100px', md: '200px' },
             fontWeight: 900,
-            color: 'rgba(255, 255, 255, 0.03)',
+            color: theme.palette.mode === 'dark' 
+              ? 'rgba(255, 255, 255, 0.03)'
+              : 'rgba(0, 0, 0, 0.03)',
             zIndex: 0,
             letterSpacing: '0.1em',
             userSelect: 'none',
           }
-        }}
+        })}
       >
-        {/* 添加毛玻璃效果覆盖层 */}
+        {/* 毛玻璃效果覆盖层 */}
         <Box
-          sx={{
+          sx={(theme) => ({
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+            background: theme.palette.mode === 'dark'
+              ? 'linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05))'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
             backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)', // Safari 支持
+            WebkitBackdropFilter: 'blur(10px)',
             zIndex: 1,
             '&::before': {
               content: '""',
@@ -220,7 +225,7 @@ export default function Home() {
               left: '10%',
               width: '40%',
               height: '40%',
-              background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
+              background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0)} 70%)`,
               animation: 'float 15s ease-in-out infinite alternate',
             },
             '&::after': {
@@ -230,13 +235,13 @@ export default function Home() {
               right: '10%',
               width: '35%',
               height: '35%',
-              background: 'radial-gradient(circle, rgba(26, 35, 126, 0.08) 0%, rgba(26, 35, 126, 0) 70%)',
+              background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.08)} 0%, ${alpha(theme.palette.primary.main, 0)} 70%)`,
               animation: 'float 12s ease-in-out infinite alternate-reverse',
             }
-          }}
+          })}
         />
 
-        {/* 将原有内容包裹在新的 Box 中以确保在毛玻璃效果之上 */}
+        {/* 内容区域 */}
         <Box sx={{ position: 'relative', zIndex: 2, width: '100%' }}>
           <Container maxWidth="lg">
             <Grid container spacing={8} alignItems="center" sx={{ position: 'relative' }}>
@@ -244,13 +249,13 @@ export default function Home() {
                 <Fade in={inView1} timeout={1000}>
                   <Box sx={{ position: 'relative' }}>
                     <Box
-                      sx={{
+                      sx={(theme) => ({
                         position: 'absolute',
                         top: -30,
                         left: -30,
                         width: 200,
                         height: 200,
-                        background: 'radial-gradient(circle, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0) 70%)',
+                        background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0)} 70%)`,
                         borderRadius: '50%',
                         animation: 'pulse 3s ease-in-out infinite',
                         '@keyframes pulse': {
@@ -258,16 +263,16 @@ export default function Home() {
                           '50%': { transform: 'scale(1.2)' },
                           '100%': { transform: 'scale(1)' },
                         },
-                      }}
+                      })}
                     />
                     <Typography 
                       variant="h1" 
                       component="h1" 
                       gutterBottom
-                      sx={{ 
+                      sx={(theme) => ({ 
                         fontSize: { xs: '2.75rem', sm: '3.5rem', md: '4rem' },
                         lineHeight: 1.2,
-                        background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                        background: theme.palette.gradients.primary,
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         position: 'relative',
@@ -281,10 +286,10 @@ export default function Home() {
                           left: 0,
                           width: 100,
                           height: 6,
-                          background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                          background: theme.palette.gradients.primary,
                           borderRadius: 3,
                         }
-                      }}
+                      })}
                     >
                       {sections[0].title}
                     </Typography>
@@ -310,20 +315,20 @@ export default function Home() {
                         variant="contained" 
                         color="primary" 
                         size="large"
-                        sx={{ 
+                        sx={(theme) => ({ 
                           px: { xs: 4, sm: 6 },
                           py: 2,
                           fontSize: { xs: '1rem', sm: '1.1rem' },
                           fontWeight: 600,
-                          background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                          boxShadow: '0 4px 20px rgba(26, 35, 126, 0.25)',
+                          background: theme.palette.gradients.primary,
+                          boxShadow: `0 4px 20px ${alpha(theme.palette.primary.main, 0.25)}`,
                           borderRadius: 3,
                           '&:hover': {
-                            background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                            background: `linear-gradient(45deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.main} 90%)`,
                             transform: 'translateY(-2px)',
-                            boxShadow: '0 6px 25px rgba(26, 35, 126, 0.35)',
+                            boxShadow: `0 6px 25px ${alpha(theme.palette.primary.main, 0.35)}`,
                           },
-                        }}
+                        })}
                       >
                         免费试用
                       </Button>
@@ -351,10 +356,12 @@ export default function Home() {
                   </Box>
                 </Fade>
               </Grid>
+
+              {/* 右侧图片部分 */}
               <Grid item xs={12} md={6}>
                 <Fade in={inView1} timeout={1000} style={{ transitionDelay: '500ms' }}>
                   <Box 
-                    sx={{
+                    sx={(theme) => ({
                       position: 'relative',
                       width: '120%',
                       ml: { md: -8 },
@@ -365,7 +372,7 @@ export default function Home() {
                         left: '10%',
                         width: '80%',
                         height: '80%',
-                        background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.2), rgba(63, 81, 181, 0.2))',
+                        background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.2)}, ${alpha(theme.palette.primary.light, 0.2)})`,
                         borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
                         filter: 'blur(40px)',
                         animation: 'morphing 15s ease-in-out infinite',
@@ -381,7 +388,7 @@ export default function Home() {
                           }
                         }
                       }
-                    }}
+                    })}
                   >
                     <Box 
                       component="img"
@@ -411,15 +418,16 @@ export default function Home() {
           </Container>
         </Box>
 
-        {/* 确保箭头按钮在最上层 */}
+        {/* 向下滚动按钮 */}
         <IconButton
-          sx={{
+          sx={(theme) => ({
             position: 'absolute',
             bottom: 40,
             left: '50%',
             transform: 'translateX(-50%)',
             animation: 'bounce 2s infinite',
-            zIndex: 3, // 增加 z-index
+            zIndex: 3,
+            color: theme.palette.text.primary,
             '@keyframes bounce': {
               '0%, 20%, 50%, 80%, 100%': {
                 transform: 'translateX(-50%) translateY(0)',
@@ -431,7 +439,7 @@ export default function Home() {
                 transform: 'translateX(-50%) translateY(-10px)',
               },
             },
-          }}
+          })}
           onClick={() => setActiveSection(1)}
         >
           <KeyboardArrowDownIcon />
@@ -442,13 +450,13 @@ export default function Home() {
       <Box
         ref={ref2}
         id="features"
-        sx={{ 
+        sx={(theme) => ({ 
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
           bgcolor: 'background.paper',
           position: 'relative',
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Fade in={inView2} timeout={1000}>
@@ -456,10 +464,10 @@ export default function Home() {
               variant="h2" 
               align="center" 
               gutterBottom
-              sx={{
+              sx={(theme) => ({
                 fontWeight: 700,
                 mb: 8,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 position: 'relative',
@@ -471,10 +479,10 @@ export default function Home() {
                   transform: 'translateX(-50%)',
                   width: 60,
                   height: 4,
-                  background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                  background: theme.palette.gradients.primary,
                   borderRadius: 2,
                 }
-              }}
+              })}
             >
               {sections[1].title}
             </Typography>
@@ -485,20 +493,26 @@ export default function Home() {
                 <Fade in={inView2} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card 
                     elevation={0}
-                    sx={{ 
+                    sx={(theme) => ({ 
                       height: '100%',
                       p: 2,
-                      background: 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
                       border: '1px solid',
-                      borderColor: 'rgba(26, 35, 126, 0.1)',
+                      borderColor: theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : 'rgba(26, 35, 126, 0.1)',
                       transition: 'all 0.3s ease',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        borderColor: 'rgba(26, 35, 126, 0.2)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
-                        background: 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.1) 100%)',
+                        borderColor: alpha(theme.palette.primary.main, 0.2),
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
+                        background: theme.palette.mode === 'dark'
+                          ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.3) 0%, rgba(63, 81, 181, 0.2) 100%)'
+                          : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.1) 100%)',
                       },
-                    }}
+                    })}
                   >
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ color: 'primary.main', mb: 3 }}>
@@ -530,12 +544,13 @@ export default function Home() {
           </Grid>
         </Container>
         <IconButton
-          sx={{
+          sx={(theme) => ({
             position: 'absolute',
             bottom: 40,
             left: '50%',
             transform: 'translateX(-50%)',
             animation: 'bounce 2s infinite',
+            color: theme.palette.text.primary,
             '@keyframes bounce': {
               '0%, 20%, 50%, 80%, 100%': {
                 transform: 'translateX(-50%) translateY(0)',
@@ -547,7 +562,7 @@ export default function Home() {
                 transform: 'translateX(-50%) translateY(-10px)',
               },
             },
-          }}
+          })}
           onClick={() => setActiveSection(2)}
         >
           <KeyboardArrowDownIcon />
@@ -558,13 +573,13 @@ export default function Home() {
       <Box
         ref={ref3}
         id="solutions"
-        sx={{ 
+        sx={(theme) => ({ 
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Fade in={inView3} timeout={1000}>
@@ -572,10 +587,10 @@ export default function Home() {
               variant="h2" 
               align="center" 
               gutterBottom
-              sx={{
+              sx={(theme) => ({
                 fontWeight: 700,
                 mb: 8,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 position: 'relative',
@@ -587,10 +602,10 @@ export default function Home() {
                   transform: 'translateX(-50%)',
                   width: 60,
                   height: 4,
-                  background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                  background: theme.palette.gradients.primary,
                   borderRadius: 2,
                 }
-              }}
+              })}
             >
               {sections[2].title}
             </Typography>
@@ -625,7 +640,7 @@ export default function Home() {
                     />
                     <Box
                       className="overlay"
-                      sx={{
+                      sx={(theme) => ({
                         position: 'absolute',
                         top: 0,
                         left: 0,
@@ -640,7 +655,7 @@ export default function Home() {
                         alignItems: 'center',
                         p: 3,
                         textAlign: 'center',
-                      }}
+                      })}
                     >
                       <Typography
                         variant="h4"
@@ -669,12 +684,13 @@ export default function Home() {
           </Grid>
         </Container>
         <IconButton
-          sx={{
+          sx={(theme) => ({
             position: 'absolute',
             bottom: 40,
             left: '50%',
             transform: 'translateX(-50%)',
             animation: 'bounce 2s infinite',
+            color: theme.palette.text.primary,
             '@keyframes bounce': {
               '0%, 20%, 50%, 80%, 100%': {
                 transform: 'translateX(-50%) translateY(0)',
@@ -686,7 +702,7 @@ export default function Home() {
                 transform: 'translateX(-50%) translateY(-10px)',
               },
             },
-          }}
+          })}
           onClick={() => setActiveSection(3)}
         >
           <KeyboardArrowDownIcon />
@@ -697,14 +713,14 @@ export default function Home() {
       <Box
         ref={ref4}
         id="cta"
-        sx={{ 
+        sx={(theme) => ({ 
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          background: 'linear-gradient(135deg, #1A237E 0%, #3F51B5 100%)',
-        }}
+          background: theme.palette.gradients.primary,
+        })}
       >
         <Container maxWidth="md">
           <Fade in={inView4} timeout={1000}>
@@ -731,7 +747,7 @@ export default function Home() {
                 {sections[3].subtitle}
               </Typography>
               <Button
-                variant="outlined"  // 改为 outlined 变体
+                variant="outlined"
                 size="large"
                 sx={{
                   px: { xs: 4, sm: 6 },
@@ -740,14 +756,14 @@ export default function Home() {
                   fontWeight: 600,
                   borderWidth: 2,
                   borderRadius: 3,
-                  color: 'white',  // 文字颜色改为白色
-                  borderColor: 'white',  // 边框颜色改为白色
+                  color: 'white',
+                  borderColor: 'white',
                   '&:hover': {
                     borderWidth: 2,
-                    borderColor: 'white',  // 悬停时保持边框颜色
+                    borderColor: 'white',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 4px 15px rgba(255, 255, 255, 0.15)',
-                    bgcolor: 'transparent',  // 保持背景透明
+                    bgcolor: 'transparent',
                   },
                 }}
               >

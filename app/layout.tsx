@@ -1,5 +1,4 @@
-import { CustomThemeProvider } from './theme/ThemeContext';
-import ThemeToggle from './components/ThemeToggle';
+import ThemeRegistry from './components/ThemeRegistry';
 import { Box } from '@mui/material';
 
 export default function RootLayout({
@@ -10,12 +9,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <CustomThemeProvider>
+        <ThemeRegistry>
           <Box sx={{ position: 'relative', minHeight: '100vh' }}>
             {children}
-            <ThemeToggle />
           </Box>
-        </CustomThemeProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );
