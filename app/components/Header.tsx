@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Box, Stack } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -59,15 +59,31 @@ export default function Header() {
             </Typography>
           </Box>
           
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Stack direction="row" spacing={1}>
             <Button 
               color="inherit" 
               onClick={() => router.push('/')}
               sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                  color: 'secondary.main'
-                }
+                px: 3,
+                color: 'text.primary',
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 2,
+                  backgroundColor: 'primary.main',
+                  transition: 'width 0.3s ease',
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  '&::after': {
+                    width: '80%',
+                  },
+                },
               }}
             >
               首页
@@ -76,10 +92,26 @@ export default function Header() {
               color="inherit" 
               onClick={() => router.push('/products')}
               sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                  color: 'secondary.main'
-                }
+                px: 3,
+                color: 'text.primary',
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 2,
+                  backgroundColor: 'primary.main',
+                  transition: 'width 0.3s ease',
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  '&::after': {
+                    width: '80%',
+                  },
+                },
               }}
             >
               产品
@@ -88,28 +120,49 @@ export default function Header() {
               color="inherit" 
               onClick={() => router.push('/about')}
               sx={{ 
-                '&:hover': { 
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                  color: 'secondary.main'
-                }
+                px: 3,
+                color: 'text.primary',
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 2,
+                  backgroundColor: 'primary.main',
+                  transition: 'width 0.3s ease',
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  '&::after': {
+                    width: '80%',
+                  },
+                },
               }}
             >
               关于
             </Button>
             <Button 
               variant="contained" 
-              color="secondary"
               onClick={() => router.push('/contact')}
               sx={{ 
+                ml: 2,
+                px: 4,
+                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                 color: 'white',
-                '&:hover': { 
-                  backgroundColor: 'secondary.dark',
-                }
+                boxShadow: '0 2px 8px rgba(26, 35, 126, 0.25)',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(26, 35, 126, 0.35)',
+                },
               }}
             >
               联系我们
             </Button>
-          </Box>
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>
