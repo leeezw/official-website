@@ -1,130 +1,234 @@
 'use client';
-import React from 'react';
-import { Box, Container, Typography, TextField, Button, Card, CardContent, Alert } from '@mui/material';
+import React, { useState } from 'react';
+import { 
+  Box, Container, Typography, TextField, Button, Card, 
+  CardContent, Alert, IconButton 
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import Image from 'next/image';
+import EmailIcon from '@mui/icons-material/Email';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [email, setEmail] = React.useState('');
-  const [submitted, setSubmitted] = React.useState(false);
-  const [error, setError] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
-    // 这里添加发送重置密码邮件的逻辑
-    if (email) {
-      setSubmitted(true);
-      console.log('Password reset email sent to:', email);
-    } else {
+    if (!email) {
       setError('请输入邮箱地址');
+      return;
     }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('请输入有效的邮箱地址');
+      return;
+    }
+    
+    // 这里添加发送重置密码邮件的逻辑
+    setSubmitted(true);
+    console.log('Password reset email sent to:', email);
   };
 
   return (
-    <Box>
-      <Header />
-      <Box 
-        sx={{ 
-          pt: 15,
-          pb: 10,
-          minHeight: '100vh',
-          background: 'linear-gradient(145deg, #f6f8fb 30%, #f0f4f8 90%)',
-        }}
-      >
-        <Container maxWidth="sm">
-          <Card elevation={0} sx={{ p: 4 }}>
-            <CardContent>
-              <Typography 
-                variant="h4" 
-                align="center" 
-                gutterBottom
+    <Box 
+      sx={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+      }}
+    >
+      <Container maxWidth="sm" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Card 
+          elevation={0} 
+          sx={{ 
+            p: 4, 
+            width: '100%',
+            background: 'white',
+            boxShadow: '0 10px 40px rgba(26, 35, 126, 0.1)',
+          }}
+        >
+          <CardContent>
+            <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: 40,
+                  height: 40,
+                  animation: 'spin 20s linear infinite',
+                  '@keyframes spin': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                  },
+                }}
+              >
+                <Image
+                  src="/react.svg"
+                  alt="天庭ERP Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
+              <Typography
+                variant="h5"
                 sx={{ 
                   fontWeight: 700,
-                  mb: 4,
-                  background: 'linear-gradient(45deg, #1A237E 30%, #00B894 90%)',
+                  background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                重置密码
+                天庭ERP
               </Typography>
+            </Box>
 
-              {!submitted ? (
-                <>
+            <IconButton
+              onClick={() => router.push('/auth/login')}
+              sx={{ 
+                position: 'absolute',
+                top: 32,
+                left: 32,
+                color: 'text.secondary',
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+
+            {!submitted ? (
+              <>
+                <Typography 
+                  variant="h4" 
+                  gutterBottom
+                  sx={{ 
+                    fontWeight: 700,
+                    mb: 2,
+                    background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  重置密码
+                </Typography>
+                <Typography 
+                  variant="body1" 
+                  color="text.secondary" 
+                  sx={{ mb: 4, lineHeight: 1.8 }}
+                >
+                  请输入您的注册邮箱，我们将向您发送重置密码的链接
+                </Typography>
+
+                {error && (
+                  <Alert severity="error" sx={{ mb: 3 }}>
+                    {error}
+                  </Alert>
+                )}
+
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    fullWidth
+                    label="邮箱"
+                    variant="outlined"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    sx={{ mb: 3 }}
+                    InputProps={{
+                      startAdornment: (
+                        <EmailIcon color="action" sx={{ mr: 1 }} />
+                      ),
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{ 
+                      py: 1.5,
+                      background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 12px rgba(26, 35, 126, 0.25)',
+                      },
+                    }}
+                  >
+                    发送重置链接
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Box sx={{ textAlign: 'center' }}>
+                  <EmailIcon 
+                    sx={{ 
+                      fontSize: 80, 
+                      color: 'primary.main',
+                      mb: 3,
+                    }} 
+                  />
+                  <Typography 
+                    variant="h4" 
+                    gutterBottom
+                    sx={{ 
+                      fontWeight: 700,
+                      mb: 2,
+                      background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    邮件已发送
+                  </Typography>
                   <Typography 
                     variant="body1" 
-                    color="text.secondary" 
-                    align="center"
-                    sx={{ mb: 4 }}
+                    color="text.secondary"
+                    sx={{ mb: 4, lineHeight: 1.8 }}
                   >
-                    请输入您的注册邮箱，我们将向您发送重置密码的链接
+                    重置密码链接已发送到您的邮箱
+                    <br />
+                    {email}
                   </Typography>
-
-                  {error && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                      {error}
-                    </Alert>
-                  )}
-
-                  <form onSubmit={handleSubmit}>
-                    <TextField
-                      fullWidth
-                      label="邮箱"
-                      variant="outlined"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      sx={{ mb: 3 }}
-                    />
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                    >
-                      发送重置链接
-                    </Button>
-                  </form>
-                </>
-              ) : (
-                <>
-                  <Alert severity="success" sx={{ mb: 4 }}>
-                    重置密码链接已发送到您的邮箱，请查收！
-                  </Alert>
-                  <Typography variant="body1" color="text.secondary" paragraph>
+                  <Alert severity="info" sx={{ mb: 4, textAlign: 'left' }}>
                     如果您在几分钟内没有收到邮件，请检查垃圾邮件文件夹。
-                  </Typography>
+                  </Alert>
                   <Button
                     fullWidth
                     variant="outlined"
                     color="primary"
                     onClick={() => setSubmitted(false)}
-                    sx={{ mb: 2 }}
+                    sx={{ 
+                      mb: 2,
+                      borderWidth: 2,
+                      '&:hover': {
+                        borderWidth: 2,
+                        transform: 'translateY(-2px)',
+                      },
+                    }}
                   >
                     重新发送
                   </Button>
-                </>
-              )}
+                </Box>
+              </>
+            )}
 
-              <Box sx={{ mt: 3, textAlign: 'center' }}>
-                <Button 
-                  color="primary"
-                  onClick={() => router.push('/auth/login')}
-                >
-                  返回登录
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
-        </Container>
-      </Box>
-      <Footer />
+            <Box sx={{ mt: 3, textAlign: 'center' }}>
+              <Button 
+                color="primary"
+                onClick={() => router.push('/auth/login')}
+                sx={{ fontWeight: 500 }}
+              >
+                返回登录
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Container>
     </Box>
   );
 } 
