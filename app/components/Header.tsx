@@ -63,25 +63,27 @@ export default function Header() {
           }}
         >
           <Container maxWidth="lg">
-            <Toolbar disableGutters sx={{ height: 70 }}>
+            <Toolbar 
+              disableGutters 
+              sx={{ 
+                height: 70,
+                px: { xs: 2, sm: 3 },
+              }}
+            >
               {/* Logo */}
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                 <Box
                   component="img"
                   src="/react.svg"
                   alt="React Logo"
                   sx={{
-                    height: 40,
+                    height: 36,
                     width: 'auto',
                     mr: 1,
                     animation: 'spin 20s linear infinite',
                     '@keyframes spin': {
-                      from: {
-                        transform: 'rotate(0deg)',
-                      },
-                      to: {
-                        transform: 'rotate(360deg)',
-                      },
+                      from: { transform: 'rotate(0deg)' },
+                      to: { transform: 'rotate(360deg)' },
                     }
                   }}
                 />
@@ -96,7 +98,7 @@ export default function Header() {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     textDecoration: 'none',
-                    fontSize: { xs: '1.5rem', md: '1.75rem' },
+                    fontSize: { xs: '1.25rem', md: '1.5rem' },
                   }}
                 >
                   天庭ERP
@@ -104,28 +106,28 @@ export default function Header() {
               </Box>
 
               {/* 桌面端导航菜单 */}
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 4, justifyContent: 'center' }}>
+              <Box sx={{ 
+                flexGrow: 1, 
+                display: { xs: 'none', md: 'flex' }, 
+                justifyContent: 'center',
+                ml: 4 
+              }}>
                 {pages.map((page) => (
                   <Button
                     key={page.title}
                     href={page.href}
                     sx={{
-                      mx: 1,
-                      my: 2,
+                      mx: 1.5,
                       color: 'text.primary',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      fontSize: '0.95rem',
                       fontWeight: 500,
-                      fontSize: '1rem',
                       position: 'relative',
-                      minWidth: 100,
                       '&::after': {
                         content: '""',
                         position: 'absolute',
                         width: '0%',
                         height: 2,
-                        bottom: -2,
+                        bottom: 0,
                         left: '50%',
                         transform: 'translateX(-50%)',
                         backgroundColor: 'primary.main',
@@ -145,41 +147,28 @@ export default function Header() {
               </Box>
 
               {/* 桌面端操作按钮 */}
-              <Stack 
-                direction="row" 
-                spacing={2} 
-                sx={{ 
+              <Button
+                variant="contained"
+                color="primary"
+                href="auth/login"
+                sx={{
                   display: { xs: 'none', md: 'flex' },
-                  alignItems: 'center',
+                  px: 3,
+                  py: 1,
+                  background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                  boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
+                  borderRadius: 2,
+                  fontSize: '0.95rem',
+                  fontWeight: 600,
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                    boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
+                    transform: 'translateY(-1px)',
+                  },
                 }}
               >
-                {/* <Button
-                  variant="outlined"
-                  color="primary"
-                  sx={{
-                    borderWidth: 2,
-                    '&:hover': {
-                      borderWidth: 2,
-                    },
-                  }}
-                >
-                  登录
-                </Button> */}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                    boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
-                      boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
-                    },
-                  }}
-                >
-                  登录
-                </Button>
-              </Stack>
+                登录
+              </Button>
 
               {/* 移动端菜单按钮 */}
               <IconButton
@@ -200,6 +189,7 @@ export default function Header() {
               <Box 
                 sx={{ 
                   py: 2,
+                  px: 2,
                   display: { md: 'none' },
                   background: 'rgba(255, 255, 255, 0.95)',
                 }}
@@ -215,6 +205,7 @@ export default function Header() {
                         color: 'text.primary',
                         justifyContent: 'flex-start',
                         pl: 2,
+                        borderRadius: 1,
                         '&:hover': {
                           backgroundColor: 'rgba(26, 35, 126, 0.08)',
                         },
@@ -223,40 +214,24 @@ export default function Header() {
                       {page.title}
                     </Button>
                   ))}
-                  <Box sx={{ p: 2 }}>
-                    <Stack spacing={2}>
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        color="primary"
-                        sx={{
-                          borderWidth: 2,
-                          py: 1,
-                          '&:hover': {
-                            borderWidth: 2,
-                          },
-                        }}
-                      >
-                        登录
-                      </Button>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        sx={{
-                          background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                          py: 1,
-                          boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
-                          '&:hover': {
-                            background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
-                            boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
-                          },
-                        }}
-                      >
-                        免费试用
-                      </Button>
-                    </Stack>
-                  </Box>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    href="/login"
+                    sx={{
+                      mt: 2,
+                      py: 1.5,
+                      background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                      boxShadow: '0 2px 10px rgba(26, 35, 126, 0.2)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                        boxShadow: '0 4px 15px rgba(26, 35, 126, 0.3)',
+                      },
+                    }}
+                  >
+                    登录
+                  </Button>
                 </Stack>
               </Box>
             </Collapse>
