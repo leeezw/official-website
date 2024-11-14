@@ -1,8 +1,9 @@
 'use client';
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Box, Stack } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Box, Stack, Divider } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 export default function Header() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function Header() {
             </Typography>
           </Box>
           
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} alignItems="center">
             <Button 
               color="inherit" 
               onClick={() => router.push('/')}
@@ -200,11 +201,29 @@ export default function Header() {
             >
               帮助
             </Button>
+
+            <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+
+            {/* 登录注册按钮 */}
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<PersonOutlineIcon />}
+              onClick={() => router.push('/auth/login')}
+              sx={{
+                borderWidth: 2,
+                '&:hover': {
+                  borderWidth: 2,
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              登录
+            </Button>
             <Button 
               variant="contained" 
-              onClick={() => router.push('/contact')}
+              onClick={() => router.push('/auth/register')}
               sx={{ 
-                ml: 2,
                 px: 4,
                 background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
                 color: 'white',
@@ -216,7 +235,7 @@ export default function Header() {
                 },
               }}
             >
-              联系我们
+              注册
             </Button>
           </Stack>
         </Toolbar>
