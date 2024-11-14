@@ -11,15 +11,8 @@ import {
   Stack,
   LinearProgress,
 } from '@mui/material';
-import {
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-} from '@mui/lab';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material/styles';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PeopleIcon from '@mui/icons-material/People';
@@ -134,10 +127,10 @@ export default function About() {
       
       {/* Hero Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           pt: { xs: 12, md: 16 },
           pb: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -151,21 +144,21 @@ export default function About() {
             opacity: 0.1,
             zIndex: 0,
           }
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h1"
               align="center"
-              sx={{
+              sx={(theme) => ({
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 fontWeight: 800,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 2,
-              }}
+              })}
             >
               关于我们
             </Typography>
@@ -194,15 +187,18 @@ export default function About() {
               <Grid item xs={6} md={3} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       height: '100%',
                       textAlign: 'center',
                       transition: 'all 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
                       },
-                    }}
+                    })}
                   >
                     <CardContent sx={{ p: 4 }}>
                       <Box sx={{ color: 'primary.main', mb: 2 }}>
@@ -210,13 +206,13 @@ export default function About() {
                       </Box>
                       <Typography
                         variant="h3"
-                        sx={{
+                        sx={(theme) => ({
                           fontWeight: 700,
                           mb: 1,
-                          background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                          background: theme.palette.gradients.primary,
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
-                        }}
+                        })}
                       >
                         {stat.value}
                       </Typography>
@@ -232,21 +228,21 @@ export default function About() {
         </Container>
       </Box>
 
-      {/* Company Timeline */}
+      {/* Timeline Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           py: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
-        }}
+          background: theme.palette.gradients.background,
+        })}
       >
         <Container maxWidth="lg">
           <Typography
             variant="h2"
             align="center"
-            sx={{
+            sx={(theme) => ({
               fontWeight: 700,
               mb: 8,
-              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+              background: theme.palette.gradients.primary,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               position: 'relative',
@@ -258,59 +254,84 @@ export default function About() {
                 transform: 'translateX(-50%)',
                 width: 60,
                 height: 4,
-                background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                background: theme.palette.gradients.primary,
                 borderRadius: 2,
               }
-            }}
+            })}
           >
             发展历程
           </Typography>
 
-          <Timeline position="alternate">
+          <Stack spacing={4}>
             {milestones.map((milestone, index) => (
-              <TimelineItem key={index}>
-                <TimelineSeparator>
-                  <TimelineDot 
-                    sx={{ 
-                      bgcolor: 'primary.main',
-                      boxShadow: '0 0 0 4px rgba(26, 35, 126, 0.2)',
-                    }}
-                  />
-                  {index < milestones.length - 1 && <TimelineConnector />}
-                </TimelineSeparator>
-                <TimelineContent>
-                  <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
-                    <Card
-                      sx={{
-                        mb: 4,
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateY(-4px)',
-                          boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
-                        },
-                      }}
+              <Fade
+                key={index}
+                in={inView}
+                timeout={1000}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                <Card
+                  sx={(theme) => ({
+                    position: 'relative',
+                    ml: index % 2 === 0 ? 0 : { xs: 0, md: '50%' },
+                    width: { xs: '100%', md: '50%' },
+                    background: theme.palette.mode === 'dark'
+                      ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                      : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '50%',
+                      [index % 2 === 0 ? 'right' : 'left']: { xs: '50%', md: 0 },
+                      transform: { 
+                        xs: 'translate(50%, -50%)',
+                        md: index % 2 === 0 ? 'translate(50%, -50%)' : 'translate(-50%, -50%)'
+                      },
+                      width: { xs: 2, md: 50 },
+                      height: { xs: '100%', md: 2 },
+                      bgcolor: theme.palette.primary.main,
+                      opacity: 0.2,
+                    },
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '50%',
+                      [index % 2 === 0 ? 'right' : 'left']: { xs: '50%', md: 0 },
+                      transform: 'translate(-50%, -50%)',
+                      width: 16,
+                      height: 16,
+                      borderRadius: '50%',
+                      bgcolor: theme.palette.primary.main,
+                      zIndex: 1,
+                    },
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
+                    },
+                  })}
+                >
+                  <CardContent sx={{ p: 4 }}>
+                    <Typography
+                      variant="h6"
+                      sx={(theme) => ({ 
+                        color: theme.palette.primary.main,
+                        fontWeight: 600 
+                      })}
                     >
-                      <CardContent>
-                        <Typography
-                          variant="h6"
-                          color="primary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          {milestone.year}
-                        </Typography>
-                        <Typography variant="h5" gutterBottom>
-                          {milestone.title}
-                        </Typography>
-                        <Typography color="text.secondary">
-                          {milestone.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Fade>
-                </TimelineContent>
-              </TimelineItem>
+                      {milestone.year}
+                    </Typography>
+                    <Typography variant="h5" gutterBottom>
+                      {milestone.title}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {milestone.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Fade>
             ))}
-          </Timeline>
+          </Stack>
         </Container>
       </Box>
 
@@ -320,10 +341,10 @@ export default function About() {
           <Typography
             variant="h2"
             align="center"
-            sx={{
+            sx={(theme) => ({
               fontWeight: 700,
               mb: 8,
-              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+              background: theme.palette.gradients.primary,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               position: 'relative',
@@ -335,10 +356,10 @@ export default function About() {
                 transform: 'translateX(-50%)',
                 width: 60,
                 height: 4,
-                background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                background: theme.palette.gradients.primary,
                 borderRadius: 2,
               }
-            }}
+            })}
           >
             核心技术能力
           </Typography>
@@ -348,14 +369,17 @@ export default function About() {
               <Grid item xs={12} md={6} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       p: 3,
                       transition: 'all 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
                       '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
                       },
-                    }}
+                    })}
                   >
                     <Stack spacing={2}>
                       <Typography variant="h6">
@@ -365,15 +389,15 @@ export default function About() {
                         <LinearProgress
                           variant="determinate"
                           value={capability.value}
-                          sx={{
+                          sx={(theme) => ({
                             height: 10,
                             borderRadius: 5,
-                            bgcolor: 'rgba(26, 35, 126, 0.1)',
+                            bgcolor: alpha(theme.palette.primary.main, 0.1),
                             '& .MuiLinearProgress-bar': {
                               borderRadius: 5,
-                              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                              background: theme.palette.gradients.primary,
                             },
-                          }}
+                          })}
                         />
                       </Box>
                       <Typography
@@ -394,19 +418,19 @@ export default function About() {
 
       {/* Team Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           py: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
-        }}
+          background: theme.palette.gradients.background,
+        })}
       >
         <Container maxWidth="lg">
           <Typography
             variant="h2"
             align="center"
-            sx={{
+            sx={(theme) => ({
               fontWeight: 700,
               mb: 8,
-              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+              background: theme.palette.gradients.primary,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               position: 'relative',
@@ -418,10 +442,10 @@ export default function About() {
                 transform: 'translateX(-50%)',
                 width: 60,
                 height: 4,
-                background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                background: theme.palette.gradients.primary,
                 borderRadius: 2,
               }
-            }}
+            })}
           >
             核心团队
           </Typography>
@@ -431,14 +455,17 @@ export default function About() {
               <Grid item xs={12} md={4} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       height: '100%',
                       transition: 'all 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
                       },
-                    }}
+                    })}
                   >
                     <Box
                       sx={{
@@ -471,9 +498,11 @@ export default function About() {
                       </Typography>
                       <Typography
                         variant="subtitle1"
-                        color="primary"
+                        sx={(theme) => ({ 
+                          color: theme.palette.primary.main,
+                          fontWeight: 600 
+                        })}
                         gutterBottom
-                        sx={{ fontWeight: 600 }}
                       >
                         {member.position}
                       </Typography>

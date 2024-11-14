@@ -12,6 +12,7 @@ import {
   Button,
 } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material/styles';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FactoryIcon from '@mui/icons-material/Factory';
@@ -21,115 +22,116 @@ import BusinessIcon from '@mui/icons-material/Business';
 import SchoolIcon from '@mui/icons-material/School';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
-// 定义解决方案数据
-const solutions = [
+// 首先定义类型
+interface Solution {
+  title: string;
+  industry: string;
+  description: string;
+  icon: React.ReactNode;
+  image: string;
+  challenge: string;
+  solution: string;
+  results: string[];
+  logo?: string;
+}
+
+// 然后修改数据定义
+const solutions: Solution[] = [
   {
     title: '智能制造',
+    industry: '制造业',
     description: '打造智能工厂，实现生产全流程数字化管理',
     icon: <FactoryIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/manufacturing.jpg',
-    features: [
-      '生产计划智能排程',
-      '设备物联监控',
-      '质量追溯管理',
-      'MES系统集成',
+    challenge: '传统生产管理模式效率低下，信息孤岛严重',
+    solution: '实施智能制造解决方案，打通全流程数据',
+    results: [
+      '生产效率提升40%',
+      '库存成本降低30%',
+      '订单交付准时率提升25%',
+      '质量控制效率提升35%',
     ],
-    benefits: [
-      '提升生产效率30%',
-      '降低库存成本20%',
-      '减少质量缺陷15%',
-      '设备利用率提升25%',
-    ],
+    logo: '/cases/company1-logo.png',
   },
   {
     title: '智慧物流',
+    industry: '物流业',
     description: '优化物流配送，提升仓储管理效率',
     icon: <LocalShippingIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/logistics.jpg',
-    features: [
-      '智能仓储管理',
-      '配送路线优化',
-      '车辆调度管理',
-      '物流追踪系统',
+    challenge: '配送效率低，人工成本高',
+    solution: '引入智慧物流系统，优化配送路线',
+    results: [
+      '配送效率提升45%',
+      '燃油成本降低30%',
+      '客户满意度提升40%',
+      '人工成本降低35%',
     ],
-    benefits: [
-      '仓储效率提升40%',
-      '配送成本降低25%',
-      '准时交付率提升20%',
-      '库存周转提升35%',
-    ],
+    logo: '/cases/company2-logo.png',
   },
   {
     title: '零售连锁',
+    industry: '零售业',
     description: '连锁门店管理，提供全渠道零售解决方案',
     icon: <ShoppingBasketIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/retail.jpg',
-    features: [
-      '门店运营管理',
-      '会员营销系统',
-      '商品管理优化',
-      'O2O渠道整合',
-    ],
-    benefits: [
+    challenge: '多店铺管理困难，库存管理效率低',
+    solution: '部署全渠道零售管理系统，实现统一管理',
+    results: [
       '销售额提升25%',
       '运营成本降低20%',
       '客户满意度提升30%',
       '库存周转提升40%',
     ],
+    logo: '/cases/company3-logo.png',
   },
   {
     title: '企业服务',
+    industry: '企业服务',
     description: '为企业提供一站式管理解决方案',
     icon: <BusinessIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/enterprise.jpg',
-    features: [
-      '人力资源管理',
-      '财务管理系统',
-      '办公自动化',
-      '客户关系管理',
-    ],
-    benefits: [
+    challenge: '管理流程复杂，效率低下',
+    solution: '提供一体化管理平台，优化业务流程',
+    results: [
       '管理效率提升35%',
       '人力成本降低20%',
       '决策效率提升40%',
       '客户转化提升25%',
     ],
+    logo: '/cases/company4-logo.png',
   },
   {
     title: '教育培训',
+    industry: '教育行业',
     description: '数字化教育管理，提升教学质量',
     icon: <SchoolIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/education.jpg',
-    features: [
-      '教务管理系统',
-      '在线学习平台',
-      '考试评测系统',
-      '校园管理集成',
-    ],
-    benefits: [
+    challenge: '教务管理繁琐，资源利用率低',
+    solution: '部署智慧教育系统，实现全面数字化管理',
+    results: [
       '教学效率提升30%',
       '管理成本降低25%',
       '学生满意度提升35%',
       '教学质量提升20%',
     ],
+    logo: '/cases/company5-logo.png',
   },
   {
     title: '医疗健康',
+    industry: '医疗行业',
     description: '医疗机构信息化管理解决方案',
     icon: <LocalHospitalIcon sx={{ fontSize: 48 }} />,
     image: '/solutions/healthcare.jpg',
-    features: [
-      '医疗信息系统',
-      '患者管理平台',
-      '药品库存管理',
-      '医疗设备管理',
-    ],
-    benefits: [
+    challenge: '医疗信息化程度低，管理效率不足',
+    solution: '实施医疗信息化系统，提升诊疗效率',
+    results: [
       '诊疗效率提升40%',
       '医疗成本降低20%',
       '患者满意度提升30%',
       '资源利用率提升35%',
     ],
+    logo: '/cases/company6-logo.png',
   },
 ];
 
@@ -145,10 +147,10 @@ export default function Solutions() {
       
       {/* Hero Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           pt: { xs: 12, md: 16 },
           pb: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -162,21 +164,21 @@ export default function Solutions() {
             opacity: 0.1,
             zIndex: 0,
           }
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h1"
               align="center"
-              sx={{
+              sx={(theme) => ({
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 fontWeight: 800,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 2,
-              }}
+              })}
             >
               行业解决方案
             </Typography>
@@ -200,27 +202,34 @@ export default function Solutions() {
       {/* Solutions Grid */}
       <Box sx={{ py: { xs: 8, md: 12 } }} ref={ref}>
         <Container maxWidth="lg">
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {solutions.map((solution, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 100}ms` }}>
+              <Grid item xs={12} key={index}>
+                <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
-                      height: '100%',
+                    sx={(theme) => ({
                       display: 'flex',
-                      flexDirection: 'column',
+                      flexDirection: { xs: 'column', md: 'row' },
+                      overflow: 'hidden',
                       transition: 'all 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
+                      border: '1px solid',
+                      borderColor: theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : alpha(theme.palette.primary.main, 0.1),
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        borderColor: alpha(theme.palette.primary.main, 0.2),
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
                       },
-                    }}
+                    })}
                   >
                     <Box
                       sx={{
+                        width: { xs: '100%', md: '40%' },
                         position: 'relative',
-                        paddingTop: '56.25%', // 16:9 宽高比
-                        overflow: 'hidden',
                       }}
                     >
                       <Box
@@ -228,99 +237,100 @@ export default function Solutions() {
                         src={solution.image}
                         alt={solution.title}
                         sx={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
                           width: '100%',
-                          height: '100%',
+                          height: { xs: 240, md: '100%' },
                           objectFit: 'cover',
-                          transition: 'transform 0.3s ease',
-                          '&:hover': {
-                            transform: 'scale(1.1)',
-                          },
                         }}
                       />
+                      <Box
+                        component="img"
+                        src={solution.logo}
+                        alt="Company Logo"
+                        sx={(theme) => ({
+                          position: 'absolute',
+                          bottom: 20,
+                          right: 20,
+                          width: 60,
+                          height: 60,
+                          borderRadius: '50%',
+                          bgcolor: theme.palette.background.paper,
+                          p: 1,
+                          boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.1)}`,
+                        })}
+                      />
                     </Box>
-                    <CardContent sx={{ p: 4, flexGrow: 1 }}>
+                    <CardContent sx={{ flex: 1, p: 4 }}>
                       <Stack spacing={3}>
-                        <Box sx={{ color: 'primary.main' }}>
-                          {solution.icon}
+                        <Box>
+                          <Typography
+                            variant="overline"
+                            sx={(theme) => ({ 
+                              color: theme.palette.primary.main, 
+                              fontWeight: 600 
+                            })}
+                          >
+                            {solution.industry}
+                          </Typography>
+                          <Typography variant="h4" component="h2" fontWeight={600} gutterBottom>
+                            {solution.title}
+                          </Typography>
                         </Box>
-                        <Typography variant="h4" component="h2" fontWeight={600}>
-                          {solution.title}
-                        </Typography>
-                        <Typography color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                          {solution.description}
-                        </Typography>
                         
                         <Box>
-                          <Typography variant="h6" gutterBottom sx={{ color: 'primary.main' }}>
-                            核心功能
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
+                            项目背景
                           </Typography>
-                          <Stack spacing={1}>
-                            {solution.features.map((feature, idx) => (
-                              <Box
-                                key={idx}
-                                sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: 1,
-                                }}
-                              >
-                                <Box
-                                  sx={{
-                                    width: 6,
-                                    height: 6,
-                                    borderRadius: '50%',
-                                    bgcolor: 'primary.main',
-                                    opacity: 0.7,
-                                  }}
-                                />
-                                <Typography variant="body2">
-                                  {feature}
-                                </Typography>
-                              </Box>
-                            ))}
-                          </Stack>
+                          <Typography color="text.secondary" paragraph>
+                            {solution.challenge}
+                          </Typography>
                         </Box>
 
                         <Box>
-                          <Typography variant="h6" gutterBottom sx={{ color: 'primary.main' }}>
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
+                            解决方案
+                          </Typography>
+                          <Typography color="text.secondary" paragraph>
+                            {solution.solution}
+                          </Typography>
+                        </Box>
+
+                        <Box>
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
                             实施效果
                           </Typography>
                           <Grid container spacing={2}>
-                            {solution.benefits.map((benefit, idx) => (
-                              <Grid item xs={6} key={idx}>
+                            {solution.results.map((result, idx) => (
+                              <Grid item xs={12} sm={6} key={idx}>
                                 <Box
-                                  sx={{
+                                  sx={(theme) => ({
                                     p: 2,
                                     borderRadius: 2,
-                                    bgcolor: 'rgba(26, 35, 126, 0.05)',
+                                    bgcolor: alpha(theme.palette.primary.main, 0.05),
                                     height: '100%',
-                                  }}
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  })}
                                 >
-                                  <Typography variant="body2" align="center">
-                                    {benefit}
+                                  <Typography variant="body2">
+                                    {result}
                                   </Typography>
                                 </Box>
                               </Grid>
                             ))}
                           </Grid>
                         </Box>
-
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          sx={{
-                            mt: 2,
-                            borderWidth: 2,
-                            '&:hover': {
-                              borderWidth: 2,
-                            },
-                          }}
-                        >
-                          了解详情
-                        </Button>
                       </Stack>
                     </CardContent>
                   </Card>
@@ -328,6 +338,53 @@ export default function Solutions() {
               </Grid>
             ))}
           </Grid>
+        </Container>
+      </Box>
+
+      {/* CTA Section */}
+      <Box
+        sx={(theme) => ({
+          py: { xs: 8, md: 12 },
+          background: theme.palette.gradients.background,
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'url("/pattern.png")',
+            opacity: 0.1,
+            zIndex: 0,
+          }
+        })}
+      >
+        <Container maxWidth="lg">
+          <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
+            <Button
+              variant="contained"
+              size="large"
+              href="/contact"
+              sx={(theme) => ({
+                px: 6,
+                py: 2,
+                fontSize: '1.2rem',
+                fontWeight: 600,
+                background: theme.palette.gradients.primary,
+                boxShadow: `0 4px 20px ${alpha(theme.palette.primary.main, 0.25)}`,
+                borderRadius: 3,
+                '&:hover': {
+                  background: `linear-gradient(45deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.main} 90%)`,
+                  transform: 'translateY(-2px)',
+                  boxShadow: `0 6px 25px ${alpha(theme.palette.primary.main, 0.35)}`,
+                },
+              })}
+            >
+              联系我们
+            </Button>
+          </Stack>
         </Container>
       </Box>
 

@@ -13,6 +13,7 @@ import {
   Button,
 } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material/styles';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -136,10 +137,10 @@ export default function Features() {
       
       {/* Hero Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           pt: { xs: 12, md: 16 },
           pb: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -153,21 +154,21 @@ export default function Features() {
             opacity: 0.1,
             zIndex: 0,
           }
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h1"
               align="center"
-              sx={{
+              sx={(theme) => ({
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 fontWeight: 800,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 2,
-              }}
+              })}
             >
               全方位智能化管理
             </Typography>
@@ -196,24 +197,48 @@ export default function Features() {
               <Grid item xs={12} md={6} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 100}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       height: '100%',
+                      p: 2,
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
+                      border: '1px solid',
+                      borderColor: theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : alpha(theme.palette.primary.main, 0.1),
                       transition: 'all 0.3s ease',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        borderColor: alpha(theme.palette.primary.main, 0.2),
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
+                        background: theme.palette.mode === 'dark'
+                          ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.3) 0%, rgba(63, 81, 181, 0.2) 100%)'
+                          : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.1) 100%)',
                       },
-                    }}
+                    })}
                   >
-                    <CardContent sx={{ p: 4 }}>
+                    <CardContent sx={{ p: 3 }}>
                       <Stack spacing={3}>
                         <Box sx={{ color: 'primary.main' }}>
                           {feature.icon}
                         </Box>
-                        <Typography variant="h5" component="h2" fontWeight={600}>
+                        <Typography 
+                          variant="h5" 
+                          gutterBottom 
+                          sx={{ 
+                            fontWeight: 600,
+                            color: 'primary.main',
+                            mb: 2,
+                          }}
+                        >
                           {feature.title}
                         </Typography>
-                        <Typography color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                        <Typography 
+                          variant="body1" 
+                          color="text.secondary"
+                          sx={{ lineHeight: 1.8 }}
+                        >
                           {feature.description}
                         </Typography>
                         <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
@@ -222,19 +247,25 @@ export default function Features() {
                               key={tag}
                               label={tag}
                               size="small"
-                              sx={{
-                                background: 'linear-gradient(45deg, rgba(26, 35, 126, 0.1), rgba(63, 81, 181, 0.1))',
+                              sx={(theme) => ({
+                                background: alpha(theme.palette.primary.main, 0.1),
+                                color: theme.palette.primary.main,
                                 borderRadius: 1,
-                              }}
+                                '&:hover': {
+                                  background: alpha(theme.palette.primary.main, 0.2),
+                                },
+                              })}
                             />
                           ))}
                         </Stack>
                         <Box
-                          sx={{
+                          sx={(theme) => ({
                             pt: 2,
                             borderTop: '1px solid',
-                            borderColor: 'divider',
-                          }}
+                            borderColor: theme.palette.mode === 'dark'
+                              ? alpha(theme.palette.common.white, 0.1)
+                              : alpha(theme.palette.primary.main, 0.1),
+                          })}
                         >
                           <Stack spacing={1.5}>
                             {feature.details.map((detail, idx) => (
@@ -244,19 +275,21 @@ export default function Features() {
                                   display: 'flex',
                                   alignItems: 'center',
                                   gap: 1,
-                                  color: 'text.secondary',
                                 }}
                               >
                                 <Box
-                                  sx={{
+                                  sx={(theme) => ({
                                     width: 6,
                                     height: 6,
                                     borderRadius: '50%',
-                                    bgcolor: 'primary.main',
+                                    bgcolor: theme.palette.primary.main,
                                     opacity: 0.7,
-                                  }}
+                                  })}
                                 />
-                                <Typography variant="body2">
+                                <Typography 
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
                                   {detail}
                                 </Typography>
                               </Box>
@@ -273,11 +306,11 @@ export default function Features() {
         </Container>
       </Box>
 
-      {/* Pricing & CTA Section */}
+      {/* CTA Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           py: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -291,16 +324,16 @@ export default function Features() {
             opacity: 0.1,
             zIndex: 0,
           }
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Stack spacing={6} alignItems="center">
             <Typography
               variant="h2"
               align="center"
-              sx={{
+              sx={(theme) => ({
                 fontWeight: 700,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 2,
@@ -313,10 +346,10 @@ export default function Features() {
                   transform: 'translateX(-50%)',
                   width: 60,
                   height: 4,
-                  background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                  background: theme.palette.gradients.primary,
                   borderRadius: 2,
                 }
-              }}
+              })}
             >
               选择适合您的方案
             </Typography>
@@ -333,20 +366,20 @@ export default function Features() {
               variant="contained"
               size="large"
               href="/products"
-              sx={{
+              sx={(theme) => ({
                 px: 6,
                 py: 2,
                 fontSize: '1.2rem',
                 fontWeight: 600,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
-                boxShadow: '0 4px 20px rgba(26, 35, 126, 0.25)',
+                background: theme.palette.gradients.primary,
+                boxShadow: `0 4px 20px ${alpha(theme.palette.primary.main, 0.25)}`,
                 borderRadius: 3,
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #0D1642 30%, #1A237E 90%)',
+                  background: `linear-gradient(45deg, ${theme.palette.primary.dark} 30%, ${theme.palette.primary.main} 90%)`,
                   transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 25px rgba(26, 35, 126, 0.35)',
+                  boxShadow: `0 6px 25px ${alpha(theme.palette.primary.main, 0.35)}`,
                 },
-              }}
+              })}
             >
               查看完整价格方案
             </Button>

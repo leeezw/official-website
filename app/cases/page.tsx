@@ -14,6 +14,7 @@ import {
   Divider,
 } from '@mui/material';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material/styles';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
@@ -104,10 +105,10 @@ export default function Cases() {
       
       {/* Hero Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           pt: { xs: 12, md: 16 },
           pb: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          background: theme.palette.gradients.background,
           position: 'relative',
           overflow: 'hidden',
           '&::before': {
@@ -121,21 +122,21 @@ export default function Cases() {
             opacity: 0.1,
             zIndex: 0,
           }
-        }}
+        })}
       >
         <Container maxWidth="lg">
           <Stack spacing={4} alignItems="center" sx={{ position: 'relative', zIndex: 1 }}>
             <Typography
               variant="h1"
               align="center"
-              sx={{
+              sx={(theme) => ({
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 fontWeight: 800,
-                background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                background: theme.palette.gradients.primary,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 mb: 2,
-              }}
+              })}
             >
               客户成功案例
             </Typography>
@@ -164,16 +165,24 @@ export default function Cases() {
               <Grid item xs={12} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       display: 'flex',
                       flexDirection: { xs: 'column', md: 'row' },
                       overflow: 'hidden',
                       transition: 'all 0.3s ease',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
+                      border: '1px solid',
+                      borderColor: theme.palette.mode === 'dark'
+                        ? 'rgba(255, 255, 255, 0.1)'
+                        : alpha(theme.palette.primary.main, 0.1),
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 8px 30px rgba(26, 35, 126, 0.12)',
+                        borderColor: alpha(theme.palette.primary.main, 0.2),
+                        boxShadow: `0 8px 30px ${alpha(theme.palette.primary.main, 0.12)}`,
                       },
-                    }}
+                    })}
                   >
                     <Box
                       sx={{
@@ -195,17 +204,17 @@ export default function Cases() {
                         component="img"
                         src={case_.logo}
                         alt="Company Logo"
-                        sx={{
+                        sx={(theme) => ({
                           position: 'absolute',
                           bottom: 20,
                           right: 20,
                           width: 60,
                           height: 60,
                           borderRadius: '50%',
-                          bgcolor: 'white',
+                          bgcolor: theme.palette.background.paper,
                           p: 1,
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                        }}
+                          boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.1)}`,
+                        })}
                       />
                     </Box>
                     <CardContent sx={{ flex: 1, p: 4 }}>
@@ -213,7 +222,10 @@ export default function Cases() {
                         <Box>
                           <Typography
                             variant="overline"
-                            sx={{ color: 'primary.main', fontWeight: 600 }}
+                            sx={(theme) => ({ 
+                              color: theme.palette.primary.main, 
+                              fontWeight: 600 
+                            })}
                           >
                             {case_.industry}
                           </Typography>
@@ -223,7 +235,11 @@ export default function Cases() {
                         </Box>
                         
                         <Box>
-                          <Typography variant="h6" color="primary.main" gutterBottom>
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
                             项目背景
                           </Typography>
                           <Typography color="text.secondary" paragraph>
@@ -232,7 +248,11 @@ export default function Cases() {
                         </Box>
 
                         <Box>
-                          <Typography variant="h6" color="primary.main" gutterBottom>
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
                             解决方案
                           </Typography>
                           <Typography color="text.secondary" paragraph>
@@ -241,21 +261,25 @@ export default function Cases() {
                         </Box>
 
                         <Box>
-                          <Typography variant="h6" color="primary.main" gutterBottom>
+                          <Typography 
+                            variant="h6" 
+                            sx={(theme) => ({ color: theme.palette.primary.main })} 
+                            gutterBottom
+                          >
                             实施效果
                           </Typography>
                           <Grid container spacing={2}>
                             {case_.results.map((result, idx) => (
                               <Grid item xs={12} sm={6} key={idx}>
                                 <Box
-                                  sx={{
+                                  sx={(theme) => ({
                                     p: 2,
                                     borderRadius: 2,
-                                    bgcolor: 'rgba(26, 35, 126, 0.05)',
+                                    bgcolor: alpha(theme.palette.primary.main, 0.05),
                                     height: '100%',
                                     display: 'flex',
                                     alignItems: 'center',
-                                  }}
+                                  })}
                                 >
                                   <Typography variant="body2">
                                     {result}
@@ -277,19 +301,19 @@ export default function Cases() {
 
       {/* Testimonials Section */}
       <Box
-        sx={{
+        sx={(theme) => ({
           py: { xs: 8, md: 12 },
-          background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
-        }}
+          background: theme.palette.gradients.background,
+        })}
       >
         <Container maxWidth="lg">
           <Typography
             variant="h2"
             align="center"
-            sx={{
+            sx={(theme) => ({
               fontWeight: 700,
               mb: 8,
-              background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+              background: theme.palette.gradients.primary,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               position: 'relative',
@@ -301,10 +325,10 @@ export default function Cases() {
                 transform: 'translateX(-50%)',
                 width: 60,
                 height: 4,
-                background: 'linear-gradient(90deg, #1A237E, #3F51B5)',
+                background: theme.palette.gradients.primary,
                 borderRadius: 2,
               }
-            }}
+            })}
           >
             客户评价
           </Typography>
@@ -314,9 +338,12 @@ export default function Cases() {
               <Grid item xs={12} md={4} key={index}>
                 <Fade in={inView} timeout={1000} style={{ transitionDelay: `${index * 200}ms` }}>
                   <Card
-                    sx={{
+                    sx={(theme) => ({
                       height: '100%',
                       position: 'relative',
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(26, 35, 126, 0.2) 0%, rgba(63, 81, 181, 0.1) 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, rgba(63, 81, 181, 0.05) 100%)',
                       '&::before': {
                         content: '""',
                         position: 'absolute',
@@ -324,20 +351,20 @@ export default function Cases() {
                         left: 20,
                         width: 40,
                         height: 40,
-                        background: 'linear-gradient(45deg, #1A237E 30%, #3F51B5 90%)',
+                        background: theme.palette.gradients.primary,
                         borderRadius: '50%',
                         opacity: 0.1,
                       }
-                    }}
+                    })}
                   >
                     <CardContent sx={{ p: 4 }}>
                       <Stack spacing={3}>
                         <FormatQuoteIcon 
-                          sx={{ 
+                          sx={(theme) => ({ 
                             fontSize: 40,
-                            color: 'primary.main',
+                            color: theme.palette.primary.main,
                             opacity: 0.5,
-                          }} 
+                          })} 
                         />
                         <Typography
                           variant="body1"
@@ -350,7 +377,9 @@ export default function Cases() {
                           {testimonial.content}
                         </Typography>
                         <Rating value={testimonial.rating} readOnly />
-                        <Divider />
+                        <Divider sx={(theme) => ({ 
+                          borderColor: alpha(theme.palette.primary.main, 0.1) 
+                        })} />
                         <Stack direction="row" spacing={2} alignItems="center">
                           <Avatar
                             src={testimonial.avatar}
