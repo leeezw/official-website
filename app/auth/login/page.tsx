@@ -67,7 +67,7 @@ export default function Login() {
           </Typography>
           <Box
             component="img"
-            src="/login-illustration.svg" // 需要添加登录页插图
+            src="https://storyset.com/illustration/secure-login/amico"
             alt="Login illustration"
             sx={{
               width: '100%',
