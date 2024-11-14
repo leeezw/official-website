@@ -145,6 +145,34 @@ export default function Header() {
               关于
             </Button>
             <Button 
+              color="inherit" 
+              onClick={() => router.push('/help')}
+              sx={{ 
+                px: 3,
+                color: 'text.primary',
+                position: 'relative',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 2,
+                  backgroundColor: 'primary.main',
+                  transition: 'width 0.3s ease',
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  '&::after': {
+                    width: '80%',
+                  },
+                },
+              }}
+            >
+              帮助
+            </Button>
+            <Button 
               variant="contained" 
               onClick={() => router.push('/contact')}
               sx={{ 
