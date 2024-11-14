@@ -108,41 +108,55 @@ export default function Home() {
   const [ref3, inView3] = useInView({ threshold: 0.5 });
   const [ref4, inView4] = useInView({ threshold: 0.5 });
 
-  // 处理滚轮事件
+  // 修改滚轮事件处理部分
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
+    let lastScrollTime = 0;
+    const scrollCooldown = 1000; // 滚动冷却时间（毫秒）
 
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
+      const currentTime = Date.now();
       
-      if (scrolling) return;
-
-      setScrolling(true);
-      
-      if (e.deltaY > 0 && activeSection < sections.length - 1) {
-        setActiveSection(prev => prev + 1);
-      } else if (e.deltaY < 0 && activeSection > 0) {
-        setActiveSection(prev => prev - 1);
+      // 如果距离上次滚动时间不足冷却时间，则忽略此次滚动
+      if (currentTime - lastScrollTime < scrollCooldown) {
+        e.preventDefault();
+        return;
       }
 
-      timeoutId = setTimeout(() => {
-        setScrolling(false);
-      }, 1000);
+      // 更新最后滚动时间
+      lastScrollTime = currentTime;
+
+      // 向下滚动
+      if (e.deltaY > 0 && activeSection < sections.length - 1) {
+        e.preventDefault();
+        setActiveSection(prev => prev + 1);
+      }
+      // 向上滚动
+      else if (e.deltaY < 0 && activeSection > 0) {
+        e.preventDefault();
+        setActiveSection(prev => prev - 1);
+      }
     };
 
+    // 添加滚轮事件监听
     window.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
-  }, [scrolling, activeSection]);
+  }, [activeSection]); // 移除 scrolling 依赖
 
-  // 滚动到活动section
+  // 修改滚动到活动section的效果
   useEffect(() => {
     const section = document.getElementById(sections[activeSection].id);
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+      section.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'  // 确保滚动到section的顶部
+      });
     }
   }, [activeSection]);
 
@@ -336,6 +350,7 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           bgcolor: 'background.paper',
+          position: 'relative',
         }}
       >
         <Container maxWidth="lg">
@@ -417,6 +432,29 @@ export default function Home() {
             ))}
           </Grid>
         </Container>
+        <IconButton
+          sx={{
+            position: 'absolute',
+            bottom: 40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            animation: 'bounce 2s infinite',
+            '@keyframes bounce': {
+              '0%, 20%, 50%, 80%, 100%': {
+                transform: 'translateX(-50%) translateY(0)',
+              },
+              '40%': {
+                transform: 'translateX(-50%) translateY(-20px)',
+              },
+              '60%': {
+                transform: 'translateX(-50%) translateY(-10px)',
+              },
+            },
+          }}
+          onClick={() => setActiveSection(2)}
+        >
+          <KeyboardArrowDownIcon />
+        </IconButton>
       </Box>
 
       {/* Solutions Section */}
@@ -428,6 +466,7 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           background: 'linear-gradient(135deg, rgba(26, 35, 126, 0.05) 0%, rgba(63, 81, 181, 0.08) 100%)',
+          position: 'relative',
         }}
       >
         <Container maxWidth="lg">
@@ -520,6 +559,29 @@ export default function Home() {
             ))}
           </Grid>
         </Container>
+        <IconButton
+          sx={{
+            position: 'absolute',
+            bottom: 40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            animation: 'bounce 2s infinite',
+            '@keyframes bounce': {
+              '0%, 20%, 50%, 80%, 100%': {
+                transform: 'translateX(-50%) translateY(0)',
+              },
+              '40%': {
+                transform: 'translateX(-50%) translateY(-20px)',
+              },
+              '60%': {
+                transform: 'translateX(-50%) translateY(-10px)',
+              },
+            },
+          }}
+          onClick={() => setActiveSection(3)}
+        >
+          <KeyboardArrowDownIcon />
+        </IconButton>
       </Box>
 
       {/* CTA Section */}
